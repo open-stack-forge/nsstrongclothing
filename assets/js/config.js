@@ -3,7 +3,7 @@
    ===================================================================== */
 window.NSS_CONFIG = {
   // Show a "Test mode" banner site-wide while Stripe is in sandbox. Set false when going live.
-  testMode: false,
+  testMode: true,
   currency: "CAD",
   locale: "en-CA",
 
@@ -21,8 +21,8 @@ window.NSS_CONFIG = {
                          Session and redirects the shopper to Stripe.
      TODO(Calvin): create a Stripe account, then pick a mode below.        */
   checkout: {
-    mode: "disabled",
-    workerUrl: ""          // e.g. "https://checkout.nsstrongclothing.ca/create-session"
+    mode: "worker",
+    workerUrl: "https://checkout.nsstrongclothing.ca"
   },
 
   /* -------- CONTACT --------------------------------------------------
