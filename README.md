@@ -20,6 +20,13 @@ Static storefront for **nsstrongclothing.ca**, hosted free on **GitHub Pages** (
 | `worker/checkout-worker.js` | Optional Cloudflare Worker for full multi-item Stripe Checkout (free tier). |
 | `CNAME` | Custom domain for GitHub Pages. Don't delete. |
 
+## Brand
+
+- Logo, favicons and social images come from the NS Strong brand kit (master files: the **NS Strong Clothing Brand** folder on OneDrive).
+- Colours (CSS variables at the top of `assets/css/style.css`): Atlantic Navy `#0B2545`, Harbour Blue `#1F6FB2`, Lobster Red `#C8102E`, Bone White `#F2EFE8`, Fog Grey `#9AA5B1`, Sky Tint `#9CC9F0`, Sea Glass `#7FB8A4`, Beacon Gold `#F4B942`, Granite Ink `#14171A`.
+- Fonts: Barlow Condensed (headings) and Inter (text), self-hosted in `assets/fonts/` (SIL Open Font License, no Google requests).
+- Lifestyle photos: `assets/img/brand/` (WebP). Product mockups: `assets/img/products/*.webp` (AI-generated sample art; replace with real photos before launch). The old `*.svg` product placeholders are no longer used.
+
 ## Add or edit products
 
 1. Open `data/products.json` (you can edit it right on GitHub with the pencil icon).
