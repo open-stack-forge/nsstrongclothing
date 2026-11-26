@@ -1,0 +1,16 @@
+# Deploy: cd worker && npx wrangler deploy   (secrets are managed separately, never in this file)
+name = "nsstrong-checkout"
+main = "checkout-worker.js"
+compatibility_date = "2026-11-01"
+account_id = "d016dda2ccd822e94888c3f262866eee"
+workers_dev = false
+routes = [{ pattern = "checkout.nsstrongclothing.ca", custom_domain = true }]
+
+[vars]
+PRINTFUL_AUTO_CONFIRM = "false"   # set "true" only after Calvin approves going live
+EMAIL_ENABLED = "true"            # emails only send once the RESEND_API_KEY secret exists
+EMAIL_FROM = "NS Strong Clothing <orders@nsstrongclothing.ca>"
+OWNER_EMAIL = "hello@nsstrongclothing.ca"
+
+[observability]
+enabled = true

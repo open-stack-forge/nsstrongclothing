@@ -1,0 +1,167 @@
+{
+  "_readme": "Printful fulfilment mapping used by the checkout Worker (worker/checkout-worker.js). Keys are product ids from products.json; variants are keyed 'Colour|Size' -> Printful catalog variant_id (Canada-fulfilled). Products or colours missing here are NOT auto-fulfilled (the Worker creates the draft without them and flags it). Status 'proposed' = awaiting Calvin's approval of blank, colour and print placement.",
+  "provider": "printful",
+  "status": "proposed",
+  "products": {
+    "bluenose-tee": {
+      "printful_product_id": 586,
+      "printful_product": "Unisex Garment-Dyed Heavyweight T-Shirt | Comfort Colors 1717",
+      "placement": "front",
+      "options": [],
+      "colours": {
+        "Atlantic Navy": {
+          "printful_colour": "True Navy",
+          "file": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png"
+        },
+        "Fog Grey": {
+          "printful_colour": "Grey",
+          "file": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+        },
+        "Bone White": {
+          "printful_colour": "Ivory",
+          "file": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+        }
+      },
+      "variants": {
+        "Atlantic Navy|S": 15181,
+        "Atlantic Navy|M": 15182,
+        "Atlantic Navy|L": 15183,
+        "Atlantic Navy|XL": 15184,
+        "Atlantic Navy|2XL": 15185,
+        "Fog Grey|S": 15176,
+        "Fog Grey|M": 15177,
+        "Fog Grey|L": 15178,
+        "Fog Grey|XL": 15179,
+        "Fog Grey|2XL": 15180,
+        "Bone White|S": 16523,
+        "Bone White|M": 16524,
+        "Bone White|L": 16525,
+        "Bone White|XL": 16526,
+        "Bone White|2XL": 16527
+      }
+    },
+    "saltire-hoodie": {
+      "printful_product_id": 146,
+      "printful_product": "Unisex Heavy Blend Hoodie | Gildan 18500",
+      "placement": "front",
+      "options": [],
+      "colours": {
+        "Atlantic Navy": {
+          "printful_colour": "Navy",
+          "file": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png"
+        },
+        "Charcoal": {
+          "printful_colour": "Dark Heather",
+          "file": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png"
+        }
+      },
+      "variants": {
+        "Atlantic Navy|S": 5594,
+        "Atlantic Navy|M": 5595,
+        "Atlantic Navy|L": 5596,
+        "Atlantic Navy|XL": 5597,
+        "Atlantic Navy|2XL": 5598,
+        "Charcoal|S": 10806,
+        "Charcoal|M": 10807,
+        "Charcoal|L": 10808,
+        "Charcoal|XL": 10809,
+        "Charcoal|2XL": 10810
+      }
+    },
+    "coastline-crewneck": {
+      "printful_product_id": 145,
+      "printful_product": "Unisex Crew Neck Sweatshirt | Gildan 18000",
+      "placement": "embroidery_chest_left",
+      "options": [
+        {
+          "id": "thread_colors_chest_left",
+          "value": [
+            "#333366",
+            "#FFFFFF",
+            "#CC3333",
+            "#FFCC00",
+            "#005397"
+          ]
+        }
+      ],
+      "colours": {
+        "Fog Grey": {
+          "printful_colour": "Sport Grey",
+          "file": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+        }
+      },
+      "variants": {
+        "Fog Grey|S": 5514,
+        "Fog Grey|M": 5515,
+        "Fog Grey|L": 5516,
+        "Fog Grey|XL": 5517,
+        "Fog Grey|2XL": 5518
+      }
+    },
+    "ns-strong-toque": {
+      "printful_product_id": 266,
+      "printful_product": "Cuffed Beanie | Yupoong 1501KC",
+      "placement": "embroidery_front",
+      "options": [
+        {
+          "id": "embroidery_type",
+          "value": "flat"
+        },
+        {
+          "id": "thread_colors",
+          "value": [
+            "#333366",
+            "#FFFFFF",
+            "#CC3333",
+            "#FFCC00",
+            "#005397"
+          ]
+        }
+      ],
+      "colours": {
+        "Atlantic Navy": {
+          "printful_colour": "Navy",
+          "file": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+        },
+        "Lobster Red": {
+          "printful_colour": "Red",
+          "file": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+        }
+      },
+      "variants": {
+        "Atlantic Navy|One Size": 8940,
+        "Lobster Red|One Size": 8939
+      }
+    },
+    "lighthouse-long-sleeve": {
+      "printful_product_id": 356,
+      "printful_product": "Unisex Long Sleeve Tee | Bella + Canvas 3501",
+      "placement": "front",
+      "options": [],
+      "colours": {
+        "Bone White": {
+          "printful_colour": "White",
+          "file": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+        },
+        "Atlantic Navy": {
+          "printful_colour": "Navy",
+          "file": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png"
+        }
+      },
+      "variants": {
+        "Bone White|S": 10142,
+        "Bone White|M": 10143,
+        "Bone White|L": 10144,
+        "Bone White|XL": 10145,
+        "Atlantic Navy|S": 10124,
+        "Atlantic Navy|M": 10125,
+        "Atlantic Navy|L": 10126,
+        "Atlantic Navy|XL": 10127
+      }
+    }
+  },
+  "unmapped": {
+    "tide-performance-tee": "No Canada-fulfilled Printful equivalent (performance tee A4 N3142 is US/EU only).",
+    "coastline-crewneck|Sea Glass": "Colour not available from Printful Canada"
+  }
+}
