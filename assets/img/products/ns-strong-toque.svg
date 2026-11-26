@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="NS Strong Cuffed Toque (sample illustration)">
+<rect width="300" height="300" fill="#eef2f6"/>
+<path d="M80 230 L80 140 Q80 60 150 60 Q220 60 220 140 L220 230 Z" fill="#0b2545" stroke="#0b2545" stroke-opacity=".25" stroke-width="2"/>
+<rect x="80" y="190" width="140" height="40" fill="#ffffff" opacity=".15"/><rect x="125" y="198" width="50" height="24" rx="3" fill="#ffffff" stroke="#ffffff" stroke-width="2"/><g transform="translate(150 210)" stroke="#0b2545" stroke-width="3"><line x1="-7" y1="-7" x2="7" y2="7"/><line x1="7" y1="-7" x2="-7" y2="7"/></g>
+<text x="292" y="292" text-anchor="end" font-family="Arial,sans-serif" font-size="11" fill="#5b6b7b">SAMPLE</text>
+</svg>
