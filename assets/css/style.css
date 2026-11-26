@@ -172,3 +172,4 @@ h3,.value h3,.drawer-head h2,summary{font-family:var(--display);font-weight:800;
 .prose-figure{margin:2rem 0;border-radius:var(--radius);overflow:hidden}.prose-figure img{width:100%;height:auto}
 .prose-figure figcaption{font-size:.85rem;color:var(--muted);padding:.5rem 0}
 .card-title{font-family:var(--display);font-weight:800;font-size:1.25rem;letter-spacing:.02em;text-transform:uppercase}
+.opt-disabled span{opacity:.35;text-decoration:line-through;cursor:not-allowed}

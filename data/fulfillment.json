@@ -1,58 +1,107 @@
 {
-  "_readme": "Printful fulfilment mapping used by the checkout Worker (worker/checkout-worker.js). Keys are product ids from products.json; variants are keyed 'Colour|Size' -> Printful catalog variant_id (Canada-fulfilled). Products or colours missing here are NOT auto-fulfilled (the Worker creates the draft without them and flags it). Status 'proposed' = awaiting Calvin's approval of blank, colour and print placement.",
+  "_readme": "Printful fulfilment mapping used by the checkout Worker (worker/checkout-worker.js). Keys are product ids from products.json. Variants are keyed 'Colour|Size' -> Printful catalog variant_id (Canada-fulfilled). Each colour has a printful_colour and a tone ('dark' garments get the reversed/white-outline artwork, 'light' garments the full-colour artwork). placements[] list the print files per garment (optional position in print-area pixels). Products or colours missing here are NOT auto-fulfilled (the Worker creates a draft without them and alerts the owner).",
   "provider": "printful",
-  "status": "proposed",
+  "status": "approved",
+  "approved_by": "Calvin Gould",
+  "approved_on": "2026-11-26",
   "products": {
     "bluenose-tee": {
-      "printful_product_id": 586,
-      "printful_product": "Unisex Garment-Dyed Heavyweight T-Shirt | Comfort Colors 1717",
-      "placement": "front",
+      "printful_product_id": 71,
+      "printful_product": "Unisex Staple T-Shirt | Bella + Canvas 3001",
       "options": [],
+      "placements": [
+        {
+          "type": "front",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
+            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+          },
+          "position": {
+            "area_width": 1800,
+            "area_height": 2400,
+            "width": 1500,
+            "height": 1298,
+            "top": 200,
+            "left": 150
+          }
+        }
+      ],
       "colours": {
         "Atlantic Navy": {
-          "printful_colour": "True Navy",
-          "file": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png"
+          "printful_colour": "Navy",
+          "tone": "dark"
         },
-        "Fog Grey": {
-          "printful_colour": "Grey",
-          "file": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+        "Heather Grey": {
+          "printful_colour": "Athletic Heather",
+          "tone": "light"
         },
-        "Bone White": {
-          "printful_colour": "Ivory",
-          "file": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+        "Soft Cream": {
+          "printful_colour": "Soft Cream",
+          "tone": "light"
         }
       },
       "variants": {
-        "Atlantic Navy|S": 15181,
-        "Atlantic Navy|M": 15182,
-        "Atlantic Navy|L": 15183,
-        "Atlantic Navy|XL": 15184,
-        "Atlantic Navy|2XL": 15185,
-        "Fog Grey|S": 15176,
-        "Fog Grey|M": 15177,
-        "Fog Grey|L": 15178,
-        "Fog Grey|XL": 15179,
-        "Fog Grey|2XL": 15180,
-        "Bone White|S": 16523,
-        "Bone White|M": 16524,
-        "Bone White|L": 16525,
-        "Bone White|XL": 16526,
-        "Bone White|2XL": 16527
+        "Atlantic Navy|S": 4111,
+        "Atlantic Navy|M": 4112,
+        "Atlantic Navy|L": 4113,
+        "Atlantic Navy|XL": 4114,
+        "Atlantic Navy|2XL": 4115,
+        "Heather Grey|S": 6948,
+        "Heather Grey|M": 6949,
+        "Heather Grey|L": 6950,
+        "Heather Grey|XL": 6951,
+        "Heather Grey|2XL": 6952,
+        "Soft Cream|S": 4151,
+        "Soft Cream|M": 4152,
+        "Soft Cream|L": 4153,
+        "Soft Cream|XL": 4154,
+        "Soft Cream|2XL": 4155
       }
     },
     "saltire-hoodie": {
       "printful_product_id": 146,
       "printful_product": "Unisex Heavy Blend Hoodie | Gildan 18500",
-      "placement": "front",
       "options": [],
+      "placements": [
+        {
+          "type": "front",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/icon-reversed-1200.png",
+            "light": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+          },
+          "position": {
+            "area_width": 2100,
+            "area_height": 2100,
+            "width": 560,
+            "height": 644,
+            "top": 150,
+            "left": 770
+          }
+        },
+        {
+          "type": "back",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
+            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+          },
+          "position": {
+            "area_width": 1800,
+            "area_height": 2400,
+            "width": 1600,
+            "height": 1385,
+            "top": 200,
+            "left": 100
+          }
+        }
+      ],
       "colours": {
         "Atlantic Navy": {
           "printful_colour": "Navy",
-          "file": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png"
+          "tone": "dark"
         },
         "Charcoal": {
           "printful_colour": "Dark Heather",
-          "file": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png"
+          "tone": "dark"
         }
       },
       "variants": {
@@ -71,7 +120,6 @@
     "coastline-crewneck": {
       "printful_product_id": 145,
       "printful_product": "Unisex Crew Neck Sweatshirt | Gildan 18000",
-      "placement": "embroidery_chest_left",
       "options": [
         {
           "id": "thread_colors_chest_left",
@@ -84,24 +132,40 @@
           ]
         }
       ],
+      "placements": [
+        {
+          "type": "embroidery_chest_left",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/icon-reversed-1200.png",
+            "light": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+          }
+        }
+      ],
       "colours": {
-        "Fog Grey": {
+        "Sage": {
+          "printful_colour": "Military Green",
+          "tone": "light"
+        },
+        "Heather Grey": {
           "printful_colour": "Sport Grey",
-          "file": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+          "tone": "light"
         }
       },
       "variants": {
-        "Fog Grey|S": 5514,
-        "Fog Grey|M": 5515,
-        "Fog Grey|L": 5516,
-        "Fog Grey|XL": 5517,
-        "Fog Grey|2XL": 5518
+        "Sage|S": 13005,
+        "Sage|M": 13006,
+        "Sage|L": 13007,
+        "Sage|XL": 13008,
+        "Heather Grey|S": 5514,
+        "Heather Grey|M": 5515,
+        "Heather Grey|L": 5516,
+        "Heather Grey|XL": 5517,
+        "Heather Grey|2XL": 5518
       }
     },
     "ns-strong-toque": {
       "printful_product_id": 266,
       "printful_product": "Cuffed Beanie | Yupoong 1501KC",
-      "placement": "embroidery_front",
       "options": [
         {
           "id": "embroidery_type",
@@ -118,14 +182,23 @@
           ]
         }
       ],
+      "placements": [
+        {
+          "type": "embroidery_front",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/icon-reversed-1200.png",
+            "light": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+          }
+        }
+      ],
       "colours": {
         "Atlantic Navy": {
           "printful_colour": "Navy",
-          "file": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+          "tone": "dark"
         },
         "Lobster Red": {
           "printful_colour": "Red",
-          "file": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+          "tone": "dark"
         }
       },
       "variants": {
@@ -136,23 +209,54 @@
     "lighthouse-long-sleeve": {
       "printful_product_id": 356,
       "printful_product": "Unisex Long Sleeve Tee | Bella + Canvas 3501",
-      "placement": "front",
       "options": [],
+      "placements": [
+        {
+          "type": "front",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
+            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+          },
+          "position": {
+            "area_width": 1800,
+            "area_height": 2400,
+            "width": 1500,
+            "height": 1298,
+            "top": 200,
+            "left": 150
+          }
+        },
+        {
+          "type": "sleeve_left",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/icon-reversed-1200.png",
+            "light": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+          },
+          "position": {
+            "area_width": 450,
+            "area_height": 1800,
+            "width": 380,
+            "height": 437,
+            "top": 100,
+            "left": 35
+          }
+        }
+      ],
       "colours": {
-        "Bone White": {
+        "White": {
           "printful_colour": "White",
-          "file": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+          "tone": "light"
         },
         "Atlantic Navy": {
           "printful_colour": "Navy",
-          "file": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png"
+          "tone": "dark"
         }
       },
       "variants": {
-        "Bone White|S": 10142,
-        "Bone White|M": 10143,
-        "Bone White|L": 10144,
-        "Bone White|XL": 10145,
+        "White|S": 10142,
+        "White|M": 10143,
+        "White|L": 10144,
+        "White|XL": 10145,
         "Atlantic Navy|S": 10124,
         "Atlantic Navy|M": 10125,
         "Atlantic Navy|L": 10126,
@@ -160,8 +264,6 @@
       }
     }
   },
-  "unmapped": {
-    "tide-performance-tee": "No Canada-fulfilled Printful equivalent (performance tee A4 N3142 is US/EU only).",
-    "coastline-crewneck|Sea Glass": "Colour not available from Printful Canada"
-  }
+  "unmapped": {},
+  "_notes": "Sage crewneck 2XL is not produced in Canada, so products.json restricts Sage to S-XL (colour.sizes)."
 }

@@ -194,7 +194,18 @@
         '<button class="btn" type="submit"' + (p.inStock ? "" : " disabled") + '>' + (p.inStock ? "Add to cart" : "Sold out") + '</button></div></form>' +
         '<ul class="perks">' + details + '<li>🚚 Ships from Nova Scotia across Canada</li><li>↩ Easy 30-day returns on unworn items</li></ul></div>';
       var form = $("#add-form");
+      function applySizes(colourName) {
+        var cc = p.colours.filter(function (c) { return c.name === colourName; })[0];
+        var allowed = (cc && cc.sizes) || p.sizes;
+        form.querySelectorAll('input[name="size"]').forEach(function (i) {
+          var ok = allowed.indexOf(i.value) > -1;
+          i.disabled = !ok; i.parentNode.classList.toggle("opt-disabled", !ok);
+          if (!ok && i.checked) i.checked = false;
+        });
+      }
+      applySizes(c0);
       form.addEventListener("change", function (e) {
+        if (e.target.name === "colour") { applySizes(e.target.value); }
         if (e.target.name === "colour") { $("#colour-name").textContent = e.target.value; var img = $("#pdp-img"); img.src = imageFor(p, e.target.value); img.alt = p.name + " in " + e.target.value; }
         if (e.target.name === "size") $("#size-error").hidden = true;
       });

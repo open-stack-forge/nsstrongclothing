@@ -5,7 +5,7 @@
       "id": "bluenose-tee",
       "name": "Bluenose Strong Tee",
       "category": "Tees",
-      "price": 34.99,
+      "price": 39.99,
       "sizes": [
         "S",
         "M",
@@ -20,24 +20,24 @@
           "image": "assets/img/products/bluenose-tee-atlantic-navy.webp"
         },
         {
-          "name": "Fog Grey",
-          "hex": "#9aa5b1",
-          "image": "assets/img/products/bluenose-tee-fog-grey.webp"
+          "name": "Heather Grey",
+          "hex": "#cececc",
+          "image": "assets/img/products/bluenose-tee-heather-grey.webp"
         },
         {
-          "name": "Bone White",
-          "hex": "#f2efe8",
-          "image": "assets/img/products/bluenose-tee-bone-white.webp"
+          "name": "Soft Cream",
+          "hex": "#e7d4c0",
+          "image": "assets/img/products/bluenose-tee-soft-cream.webp"
         }
       ],
       "images": [
         "assets/img/products/bluenose-tee-atlantic-navy.webp"
       ],
-      "description": "Our everyday heavyweight tee with the NS Strong saltire mark across the chest. Soft, durable, built for long days on the coast or in the gym.",
+      "description": "Our everyday tee with the NS Strong lighthouse shield across the chest. Soft, lightweight 100% cotton that wears in nicely, built for long days on the coast or in the gym.",
       "details": [
-        "Heavyweight cotton feel",
-        "Relaxed athletic fit",
-        "Screen-printed front graphic"
+        "Soft 100% cotton jersey (Bella+Canvas 3001)",
+        "Unisex fit",
+        "Full-colour printed front graphic"
       ],
       "inStock": true,
       "featured": true,
@@ -71,48 +71,11 @@
       "images": [
         "assets/img/products/saltire-hoodie-atlantic-navy.webp"
       ],
-      "description": "A warm, midweight pullover hoodie for raw Nova Scotia mornings. Big saltire on the back, small NS Strong mark on the chest.",
+      "description": "A warm, midweight pullover hoodie for raw Nova Scotia mornings. Big NS Strong lighthouse shield on the back, small shield on the chest.",
       "details": [
         "Midweight fleece",
         "Kangaroo pocket",
-        "Ribbed cuffs and hem"
-      ],
-      "inStock": true,
-      "featured": true,
-      "sample": true,
-      "paymentLink": ""
-    },
-    {
-      "id": "tide-performance-tee",
-      "name": "Tide Performance Tee",
-      "category": "Training",
-      "price": 39.99,
-      "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL"
-      ],
-      "colours": [
-        {
-          "name": "Ocean Blue",
-          "hex": "#1f6fb2",
-          "image": "assets/img/products/tide-performance-tee-ocean-blue.webp"
-        },
-        {
-          "name": "Black",
-          "hex": "#14171a",
-          "image": "assets/img/products/tide-performance-tee-black.webp"
-        }
-      ],
-      "images": [
-        "assets/img/products/tide-performance-tee-ocean-blue.webp"
-      ],
-      "description": "Lightweight, quick-dry training tee made for hard sessions. Moves with you from the rink to the trail.",
-      "details": [
-        "Moisture-wicking fabric",
-        "Athletic fit",
-        "Reflective NS Strong mark"
+        "Front chest print and large back print"
       ],
       "inStock": true,
       "featured": true,
@@ -133,27 +96,33 @@
       ],
       "colours": [
         {
-          "name": "Sea Glass",
-          "hex": "#7fb8a4",
-          "image": "assets/img/products/coastline-crewneck-sea-glass.webp"
+          "name": "Sage",
+          "hex": "#7e8560",
+          "image": "assets/img/products/coastline-crewneck-sage.webp",
+          "sizes": [
+            "S",
+            "M",
+            "L",
+            "XL"
+          ]
         },
         {
-          "name": "Fog Grey",
-          "hex": "#9aa5b1",
-          "image": "assets/img/products/coastline-crewneck-fog-grey.webp"
+          "name": "Heather Grey",
+          "hex": "#cececc",
+          "image": "assets/img/products/coastline-crewneck-heather-grey.webp"
         }
       ],
       "images": [
-        "assets/img/products/coastline-crewneck-sea-glass.webp"
+        "assets/img/products/coastline-crewneck-sage.webp"
       ],
-      "description": "A classic crewneck sweatshirt with an embroidered Nova Scotia coastline. Clean, simple and proud.",
+      "description": "A classic crewneck sweatshirt with the NS Strong lighthouse shield embroidered on the chest. Clean, simple and proud.",
       "details": [
         "Midweight fleece",
-        "Embroidered chest detail",
+        "Embroidered chest shield",
         "Classic fit"
       ],
       "inStock": true,
-      "featured": false,
+      "featured": true,
       "sample": true,
       "paymentLink": ""
     },
@@ -161,7 +130,7 @@
       "id": "ns-strong-toque",
       "name": "NS Strong Cuffed Toque",
       "category": "Accessories",
-      "price": 27.99,
+      "price": 29.99,
       "sizes": [
         "One Size"
       ],
@@ -180,10 +149,10 @@
       "images": [
         "assets/img/products/ns-strong-toque-atlantic-navy.webp"
       ],
-      "description": "A cuffed knit toque with a woven NS Strong patch. Because winter here means business.",
+      "description": "A cuffed knit toque with an embroidered NS Strong shield. Because winter here means business.",
       "details": [
         "Soft acrylic knit",
-        "Woven patch",
+        "Embroidered NS Strong shield",
         "One size fits most"
       ],
       "inStock": true,
@@ -195,7 +164,7 @@
       "id": "lighthouse-long-sleeve",
       "name": "Lighthouse Long Sleeve",
       "category": "Tees",
-      "price": 42.99,
+      "price": 44.99,
       "sizes": [
         "S",
         "M",
@@ -204,9 +173,9 @@
       ],
       "colours": [
         {
-          "name": "Bone White",
-          "hex": "#f2efe8",
-          "image": "assets/img/products/lighthouse-long-sleeve-bone-white.webp"
+          "name": "White",
+          "hex": "#ffffff",
+          "image": "assets/img/products/lighthouse-long-sleeve-white.webp"
         },
         {
           "name": "Atlantic Navy",
@@ -215,12 +184,12 @@
         }
       ],
       "images": [
-        "assets/img/products/lighthouse-long-sleeve-bone-white.webp"
+        "assets/img/products/lighthouse-long-sleeve-white.webp"
       ],
-      "description": "A long sleeve tee with a lighthouse sleeve print. Light enough for summer nights, warm enough for fall.",
+      "description": "A long sleeve tee with the lighthouse shield on the chest and a shield on the sleeve. Light enough for summer nights, warm enough for the shoulder seasons.",
       "details": [
-        "Cotton-blend jersey",
-        "Sleeve print",
+        "Soft 100% cotton jersey (Bella+Canvas 3501)",
+        "Front print plus sleeve print",
         "Regular fit"
       ],
       "inStock": false,

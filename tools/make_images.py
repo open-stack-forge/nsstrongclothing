@@ -11,7 +11,7 @@ SHAPES = {
  "crew": "M65 75 L115 50 Q150 68 185 50 L235 75 L280 245 L245 252 L225 135 L225 262 L75 262 L75 135 L55 252 L20 245 Z",
  "toque": "M80 230 L80 140 Q80 60 150 60 Q220 60 220 140 L220 230 Z",
 }
-KIND = {"bluenose-tee":"tee","tide-performance-tee":"tee","saltire-hoodie":"hoodie","coastline-crewneck":"crew","ns-strong-toque":"toque","lighthouse-long-sleeve":"long"}
+KIND = {"bluenose-tee":"tee","saltire-hoodie":"hoodie","coastline-crewneck":"crew","ns-strong-toque":"toque","lighthouse-long-sleeve":"long"}
 
 def light(h):
     h=h.lstrip('#'); r,g,b=(int(h[i:i+2],16) for i in (0,2,4)); return (0.299*r+0.587*g+0.114*b)>160

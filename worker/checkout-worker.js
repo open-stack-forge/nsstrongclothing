@@ -85,7 +85,8 @@ async function handleCheckout(request, env) {
     items.forEach((it, i) => {
       const p = catalog.find((x) => x.id === it.id);
       if (!p || !p.inStock) throw new Error(`Unavailable: ${it.id}`);
-      if (!p.sizes.includes(it.size) || !p.colours.some((c) => c.name === it.colour)) throw new Error(`Bad variant: ${it.id}`);
+      const col = p.colours.find((c) => c.name === it.colour);
+      if (!col || !(col.sizes || p.sizes).includes(it.size)) throw new Error(`Bad variant: ${it.id}`);
       const qty = Math.max(1, Math.min(99, parseInt(it.qty, 10) || 1));
       const cents = Math.round(p.price * 100);
       subtotal += cents * qty;
@@ -210,12 +211,18 @@ export async function buildPrintfulOrder(session, event, env, mapping) {
     const variantId = prod && prod.variants[`${l.colour}|${l.size}`];
     const colourCfg = prod && prod.colours[l.colour];
     if (!variantId || !colourCfg) { unmapped.push(`${l.id} (${l.colour} / ${l.size}) x${l.qty}`); continue; }
+    const tone = colourCfg.tone || "light";
+    const files = (prod.placements || []).map((pl) => {
+      const f = { type: pl.type, url: pl.art[tone] || pl.art.light };
+      if (pl.position) f.position = { ...pl.position, limit_to_print_area: true };
+      return f;
+    });
     items.push({
       variant_id: variantId,
       quantity: l.qty,
       name: `${l.id} — ${l.colour} / ${l.size}`,
       retail_price: (l.cents / 100).toFixed(2),
-      files: [{ type: prod.placement, url: colourCfg.file }],
+      files,
       options: prod.options || [],
     });
   }
