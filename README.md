@@ -110,3 +110,14 @@ python3 -m http.server 8000   # then open http://localhost:8000
 ## Policies
 
 Shipping & Returns, Privacy Policy and Terms of Sale are reasonable starting templates for a Nova Scotia online retailer. Review them (return window, shipping times/rates, exact registered company name) before taking real orders.
+
+## Fulfilment (Printful, print-on-demand)
+
+Paid Stripe checkouts are turned into Printful orders by the `nsstrong-checkout` Worker (`worker/checkout-worker.js`, config in `worker/wrangler.toml`).
+
+- `POST /webhooks/stripe`: Stripe `checkout.session.completed` (signature-verified) → Printful order. Orders are created as **drafts** unless the event is live, the Stripe key is live, `PRINTFUL_AUTO_CONFIRM = "true"`, and every cart line is mapped. Duplicate deliveries are ignored (Printful `external_id`).
+- `POST /webhooks/printful/<secret>`: `package_shipped` → shipping email to the customer (needs the `RESEND_API_KEY` secret); `order_failed` / `order_canceled` / `order_put_hold` → alert to `OWNER_EMAIL`.
+- `GET /health`: shows which pieces are configured (true/false only).
+- `data/fulfillment.json`: maps each product/colour/size to a Canada-fulfilled Printful variant, print placement and print file (`assets/print/`). Products or colours missing there are not auto-fulfilled; the draft is created without them and flagged.
+- Secrets live only in Cloudflare: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `PRINTFUL_API_TOKEN`, `PRINTFUL_WEBHOOK_TOKEN`, `RESEND_API_KEY`. Never commit them.
+- Deploy: `cd worker && npx wrangler deploy`.
