@@ -28,6 +28,9 @@ export default {
     if (request.method !== "POST") return new Response("Not found", { status: 404 });
     if (origin !== SITE) return new Response(JSON.stringify({ error: "Forbidden origin" }), { status: 403, headers: { "Content-Type": "application/json" } });
     const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { "Content-Type": "application/json", ...cors(origin) } });
+    if (!env || !env.STRIPE_SECRET_KEY) {
+      return json({ error: "Checkout is not configured. Add the STRIPE_SECRET_KEY secret in the Cloudflare dashboard (Workers & Pages → nsstrong-checkout → Settings → Variables and Secrets)." }, 503);
+    }
     try {
       const { items } = await request.json();
       if (!Array.isArray(items) || !items.length || items.length > 50) return json({ error: "Empty cart" }, 400);
