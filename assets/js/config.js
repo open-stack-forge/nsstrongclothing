@@ -26,12 +26,11 @@ window.NSS_CONFIG = {
   },
 
   /* -------- CONTACT --------------------------------------------------
-     TODO(Calvin): set the public business email (e.g. hello@nsstrongclothing.ca
-     once it exists in Cloudflare Email Routing). Leave "" to hide it.
-     formEndpoint: optional free form service URL (e.g. Formspree / Web3Forms
-     action URL). If empty, the contact form opens the visitor's email app
-     using contactEmail; if both are empty, the form shows a notice.          */
-  contactEmail: "",
+     Public inbox hello@nsstrongclothing.ca is forwarded by Cloudflare Email
+     Routing to the business destination. formEndpoint: optional free form
+     service URL (e.g. Formspree / Web3Forms action URL). If empty, the
+     contact form opens the visitor's email app using contactEmail.          */
+  contactEmail: "hello@nsstrongclothing.ca",
   formEndpoint: "",
 
   // Social links (leave "" to hide). TODO(Calvin): add real profiles.
