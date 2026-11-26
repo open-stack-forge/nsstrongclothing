@@ -130,3 +130,4 @@ details p{margin:.6rem 0 0;color:var(--ink)}
 .toast{opacity:0;visibility:hidden}.toast.show{opacity:1;visibility:visible}
 .footer-brand img{filter:none}
 @media (max-width:600px){.grid{grid-template-columns:repeat(2,1fr);gap:1rem}.card-title{font-size:.95rem}}
+.test-banner{background:#c8102e;color:#fff;text-align:center;font-size:.8rem;font-weight:700;padding:.35rem 1rem}

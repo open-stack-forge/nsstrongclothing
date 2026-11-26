@@ -2,6 +2,8 @@
    NS STRONG STORE SETTINGS  —  edit this file to configure the store.
    ===================================================================== */
 window.NSS_CONFIG = {
+  // Show a "Test mode" banner site-wide while Stripe is in sandbox. Set false when going live.
+  testMode: false,
   currency: "CAD",
   locale: "en-CA",
 

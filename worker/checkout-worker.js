@@ -15,7 +15,8 @@ const FREE_SHIPPING_OVER_CENTS = 10000;   // $100.00 CAD
 const STANDARD_SHIPPING_CENTS = 1200;     // TODO(Calvin): confirm flat shipping rate
 
 const cors = (origin) => ({
-  "Access-Control-Allow-Origin": origin === SITE || origin === "https://www.nsstrongclothing.ca" ? origin : SITE,
+  "Access-Control-Allow-Origin": SITE,
+  "Vary": "Origin",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 });
@@ -25,6 +26,7 @@ export default {
     const origin = request.headers.get("Origin") || "";
     if (request.method === "OPTIONS") return new Response(null, { headers: cors(origin) });
     if (request.method !== "POST") return new Response("Not found", { status: 404 });
+    if (origin !== SITE) return new Response(JSON.stringify({ error: "Forbidden origin" }), { status: 403, headers: { "Content-Type": "application/json" } });
     const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { "Content-Type": "application/json", ...cors(origin) } });
     try {
       const { items } = await request.json();
@@ -32,7 +34,7 @@ export default {
       const catalog = (await (await fetch(`${SITE}/data/products.json`, { cf: { cacheTtl: 60 } })).json()).products;
       const form = new URLSearchParams();
       form.set("mode", "payment");
-      form.set("success_url", `${SITE}/cart.html?checkout=success`);
+      form.set("success_url", `${SITE}/thank-you.html?session_id={CHECKOUT_SESSION_ID}`);
       form.set("cancel_url", `${SITE}/cart.html?checkout=cancelled`);
       form.set("shipping_address_collection[allowed_countries][0]", "CA");
       form.set("phone_number_collection[enabled]", "true");

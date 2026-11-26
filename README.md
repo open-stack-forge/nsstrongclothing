@@ -49,7 +49,7 @@ First, create a free Stripe account at https://dashboard.stripe.com/register (bu
 ### Option A: Stripe Payment Links (simplest, no code)
 Best while you have just a few products. Limitation: one cart line per checkout.
 1. In Stripe: **Products → Add product** (name, price in CAD). For each size/colour you want to track, either make one product with a custom field, or a separate product.
-2. **Payment Links → New**, choose the product, enable "Collect shipping address" (Canada), "Let customers adjust quantity", and set the after-payment redirect to `https://nsstrongclothing.ca/cart.html?checkout=success`.
+2. **Payment Links → New**, choose the product, enable "Collect shipping address" (Canada), "Let customers adjust quantity", and set the after-payment redirect to `https://nsstrongclothing.ca/thank-you.html`.
 3. Paste the link into the product in `data/products.json`:
    - one link for the whole product: `"paymentLink": "https://buy.stripe.com/..."`
    - or per variant: `"paymentLinks": { "M|Atlantic Navy": "https://buy.stripe.com/...", "Fog Grey": "https://buy.stripe.com/..." }` (keys are `Size|Colour` or just `Colour`)

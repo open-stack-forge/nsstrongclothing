@@ -237,6 +237,7 @@
     updateCount();
     var t = CFG.freeShippingThreshold, a = $("#announce-text");
     if (a && t) a.textContent = "Free shipping across Canada on orders over " + money(t).replace(".00", "") + " · Proudly Nova Scotian";
+    if (CFG.testMode) { var tb = document.createElement("div"); tb.className = "test-banner"; tb.setAttribute("role", "status"); tb.textContent = "TEST MODE: payments are not live. Use Stripe test card 4242 4242 4242 4242. No real charges."; document.body.insertBefore(tb, document.body.firstChild); }
     var y = $("#year"); if (y) y.textContent = new Date().getFullYear();
     var mt = $(".menu-toggle"), nav = $("#site-nav");
     if (mt) mt.addEventListener("click", function () { var o = nav.classList.toggle("open"); mt.setAttribute("aria-expanded", o); });
@@ -249,7 +250,7 @@
     document.addEventListener("cart:change", function () { if (document.body.classList.contains("drawer-open")) renderDrawer(); renderCartPage(); });
     window.addEventListener("storage", function (e) { if (e.key === CART_KEY) { updateCount(); renderCartPage(); } });
     var ck = new URLSearchParams(location.search).get("checkout");
-    if (ck === "success" && $("#cart-lines")) { localStorage.removeItem(CART_KEY); updateCount(); var h = $(".page-hero p"); if (h) h.textContent = "Thank you for your order! A confirmation email is on its way."; }
+    if ($("#thank-you")) { localStorage.removeItem(CART_KEY); updateCount(); }
     renderFeatured(); renderCatalog(); renderPDP(); renderCartPage(); initContact(); initSocial();
   });
 })();
