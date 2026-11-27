@@ -25,6 +25,15 @@
   function abs(u) { u = String(u || ""); return /^(https?:|\/|data:|#|mailto:)/.test(u) || !u ? u : "/" + u; }
   function productUrl(p) { return "/products/" + encodeURIComponent(p.id) + "/"; }
   function thumb(u) { return /^assets\/img\/products\/.*\.webp$/.test(u) ? u.replace(/\.webp$/, "-480.webp") : ""; }
+  function originPerk(p) {
+    return p.shipsFrom === "US"
+      ? "🚚 Designed in Nova Scotia, printed in the US (duties, GST/HST or brokerage may apply)"
+      : "🚚 Designed in Nova Scotia, printed in Canada";
+  }
+  function preorderNotice(p) {
+    return (p.sample && p.inStock) ? '<p class="notice"><strong>Pre-order.</strong> This item is listed for preview and will ship after launch.</p>' : "";
+  }
+  function ctaLabel(p) { return !p.inStock ? "Sold out" : (p.sample ? "Pre-order" : "Add to cart"); }
   function findProduct(list, id) { id = canonId(id); for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
   function colourOf(p, name) { for (var i = 0; i < (p.colours || []).length; i++) if (p.colours[i].name === name) return p.colours[i]; return null; }
   function imageFor(p, colourName) { var c = colourOf(p, colourName); return abs((c && c.image) || (p.images && p.images[0]) || ""); }
@@ -158,7 +167,7 @@
   function cardHTML(p) {
     var badges = "";
     if (!p.inStock) badges += '<span class="badge badge-out">Sold out</span>';
-    if (p.sample) badges += '<span class="badge badge-sample" title="Placeholder product for preview">Sample</span>';
+    if (p.sample && p.inStock) badges += '<span class="badge badge-preorder">Pre-order</span>';
     var dots = (p.colours || []).map(function (c) { return '<span class="swatch-dot" style="background:' + esc(c.hex) + '" title="' + esc(c.name) + '"></span>'; }).join("");
     var t = thumb(p.images[0]), srcset = t ? ' srcset="' + esc(abs(t)) + ' 480w, ' + esc(abs(p.images[0])) + ' 900w" sizes="(max-width:600px) 50vw, 300px"' : "";
     return '<a class="card" href="' + productUrl(p) + '">' +
@@ -213,16 +222,16 @@
         '<div class="pdp-media"><img id="pdp-img" src="' + esc(imageFor(p, c0)) + '" alt="' + esc(p.name + " in " + c0) + '" width="900" height="900" fetchpriority="high"></div>' +
         '<div><div class="card-cat">' + esc(p.category) + '</div><h1>' + esc(p.name) + '</h1>' +
         '<div class="price">' + money(p.price) + ' <span class="small">CAD + HST</span></div>' +
-        (p.sample ? '<p class="notice">This is a sample product for preview purposes. Real products are coming soon.</p>' : "") +
+        preorderNotice(p) +
         '<p>' + esc(p.description) + '</p>' +
-        (p.shipsFrom === "US" && p.shippingNote ? '<p class="notice"><strong>Printed and shipped from the US.</strong> ' + esc(p.shippingNote) + '</p>' : "") +
+        (p.shipsFrom === "US" && p.shippingNote ? '<p class="notice"><strong>Designed in Nova Scotia, printed in the US.</strong> ' + esc(p.shippingNote) + '</p>' : "") +
         '<form id="add-form" novalidate>' +
         '<fieldset class="option-group"><legend>Colour: <span id="colour-name">' + esc(c0) + '</span></legend><div class="options">' + colours + '</div></fieldset>' +
         '<fieldset class="option-group"><legend>Size</legend><div class="options">' + sizes + '</div></fieldset>' +
         '<p class="small" id="size-error" role="alert" hidden style="color:#c8102e">Please choose a size.</p>' +
         '<div class="pdp-actions"><div class="qty"><button type="button" data-q="-1" aria-label="Decrease quantity">−</button><input id="qty" type="number" min="1" max="99" value="1" aria-label="Quantity"><button type="button" data-q="1" aria-label="Increase quantity">+</button></div>' +
-        '<button class="btn" type="submit"' + (p.inStock ? "" : " disabled") + '>' + (p.inStock ? "Add to cart" : "Sold out") + '</button></div></form>' +
-        '<ul class="perks">' + details + '<li>' + (p.shipsFrom === "US" ? "🚚 Printed and shipped from the US (duties, GST/HST or brokerage may apply)" : "🚚 Ships from Nova Scotia across Canada") + '</li><li>↩ Easy 30-day returns on unworn items</li></ul></div>';
+        '<button class="btn" type="submit"' + (p.inStock ? "" : " disabled") + '>' + ctaLabel(p) + '</button></div></form>' +
+        '<ul class="perks">' + details + '<li>' + originPerk(p) + '</li><li>↩ Easy 30-day returns on unworn items</li></ul></div>';
       var form = $("#add-form");
       function applySizes(colourName) {
         var cc = p.colours.filter(function (c) { return c.name === colourName; })[0];

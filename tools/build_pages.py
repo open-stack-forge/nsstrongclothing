@@ -68,7 +68,7 @@ LAYOUT = """<!doctype html>
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand"><img src="assets/img/logo-white.svg" alt="NS Strong Clothing Co." width="181" height="56">
-        <p>Apparel built for the people who make Nova Scotia strong. Online only, shipped from Nova Scotia, Canada.</p></div>
+        <p>Apparel built for the people who make Nova Scotia strong. Designed in Nova Scotia, printed in Canada.</p></div>
       <div><h2>Shop</h2><ul><li><a href="shop.html">All products</a></li><li><a href="shop.html?category=Tees">Tees</a></li><li><a href="shop.html?category=Hoodies">Hoodies</a></li><li><a href="cart.html">Cart</a></li></ul></div>
       <div><h2>Help</h2><ul><li><a href="shipping-returns.html">Shipping &amp; Returns</a></li><li><a href="faq.html">FAQ</a></li><li><a href="contact.html">Contact</a></li></ul></div>
       <div><h2>Company</h2><ul><li><a href="about.html">About</a></li><li><a href="terms.html">Terms of Sale</a></li><li><a href="privacy.html">Privacy Policy</a></li></ul></div>
@@ -99,7 +99,7 @@ LAYOUT = """<!doctype html>
 ORG_ID = SITE + "/#organization"
 ORG_LD = {"@type": "OnlineStore", "@id": ORG_ID, "name": "NS Strong Clothing Company", "alternateName": "NS Strong Clothing Co.",
           "url": SITE + "/", "logo": SITE + "/icon-512.png", "image": SITE + "/assets/img/og-image.jpg",
-          "description": "Online Nova Scotia apparel brand: tees, hoodies, crewnecks, hats and gifts with Nova Scotia pride.",
+          "description": "Online Nova Scotia apparel brand: tees, hoodies, crewnecks, hats and gifts designed in Nova Scotia and printed in Canada.",
           "email": "hello@nsstrongclothing.ca", "areaServed": {"@type": "Country", "name": "Canada"},
           "address": {"@type": "PostalAddress", "addressRegion": "NS", "addressCountry": "CA"},
           "contactPoint": {"@type": "ContactPoint", "contactType": "customer service", "email": "hello@nsstrongclothing.ca",
@@ -134,9 +134,39 @@ def thumb(img):
 def purl(p):
     return "/products/%s/" % p["id"]
 
+def availability(p):
+    """Out of stock wins; sample products are PreOrder until the flags come off at launch."""
+    if not p.get("inStock"):
+        return "https://schema.org/OutOfStock"
+    if p.get("sample"):
+        return "https://schema.org/PreOrder"
+    return "https://schema.org/InStock"
+
+def origin_perk(p):
+    if p.get("shipsFrom") == "US":
+        return "🚚 Designed in Nova Scotia, printed in the US (duties, GST/HST or brokerage may apply)"
+    return "🚚 Designed in Nova Scotia, printed in Canada"
+
+def preorder_notice(p):
+    if p.get("sample") and p.get("inStock"):
+        return '<p class="notice"><strong>Pre-order.</strong> This item is listed for preview and will ship after launch.</p>'
+    return ""
+
+def cta_label(p):
+    if not p.get("inStock"):
+        return "Sold out"
+    if p.get("sample"):
+        return "Pre-order"
+    return "Add to cart"
+
+def card_badges(p):
+    badges = '<span class="badge badge-out">Sold out</span>' if not p.get("inStock") else ""
+    if p.get("sample") and p.get("inStock"):
+        badges += '<span class="badge badge-preorder">Pre-order</span>'
+    return badges
+
 def card(p):
-    badges = ('<span class="badge badge-out">Sold out</span>' if not p["inStock"] else "") + \
-             ('<span class="badge badge-sample" title="Placeholder product for preview">Sample</span>' if p.get("sample") else "")
+    badges = card_badges(p)
     dots = "".join('<span class="swatch-dot" style="background:%s" title="%s"></span>' % (esc(c["hex"]), esc(c["name"])) for c in p["colours"])
     img = "/" + p["images"][0]; t = thumb(p["images"][0])
     srcset = ' srcset="/%s 480w, %s 900w" sizes="(max-width:600px) 50vw, 300px"' % (esc(t), esc(img)) if t else ""
@@ -159,17 +189,16 @@ def pdp_html(p):
     return ('<div class="pdp-media"><img id="pdp-img" src="%s" alt="%s" width="900" height="900" fetchpriority="high"></div>' % (esc(img), esc(p["name"] + " in " + c0)) +
             '<div><div class="card-cat">%s</div><h1>%s</h1>' % (esc(p["category"]), esc(p["name"])) +
             '<div class="price">%s <span class="small">CAD + HST</span></div>' % money(p["price"]) +
-            ('<p class="notice">This is a sample product for preview purposes. Real products are coming soon.</p>' if p.get("sample") else "") +
+            preorder_notice(p) +
             '<p>%s</p>' % esc(p["description"]) +
-            ('<p class="notice"><strong>Printed and shipped from the US.</strong> %s</p>' % esc(p["shippingNote"]) if us and p.get("shippingNote") else "") +
+            ('<p class="notice"><strong>Designed in Nova Scotia, printed in the US.</strong> %s</p>' % esc(p["shippingNote"]) if us and p.get("shippingNote") else "") +
             '<form id="add-form" novalidate>' +
             '<fieldset class="option-group"><legend>Colour: <span id="colour-name">%s</span></legend><div class="options">%s</div></fieldset>' % (esc(c0), colours) +
             '<fieldset class="option-group"><legend>Size</legend><div class="options">%s</div></fieldset>' % sizes +
             '<p class="small" id="size-error" role="alert" hidden style="color:#c8102e">Please choose a size.</p>' +
             '<div class="pdp-actions"><div class="qty"><button type="button" data-q="-1" aria-label="Decrease quantity">−</button><input id="qty" type="number" min="1" max="99" value="1" aria-label="Quantity"><button type="button" data-q="1" aria-label="Increase quantity">+</button></div>' +
-            '<button class="btn" type="submit"%s>%s</button></div></form>' % ("" if p["inStock"] else " disabled", "Add to cart" if p["inStock"] else "Sold out") +
-            '<ul class="perks">%s<li>%s</li><li>↩ Easy 30-day returns on unworn items</li></ul></div>' % (details,
-            "🚚 Printed and shipped from the US (duties, GST/HST or brokerage may apply)" if us else "🚚 Ships from Nova Scotia across Canada"))
+            '<button class="btn" type="submit"%s>%s</button></div></form>' % ("" if p["inStock"] else " disabled", cta_label(p)) +
+            '<ul class="perks">%s<li>%s</li><li>↩ Easy 30-day returns on unworn items</li></ul></div>' % (details, origin_perk(p)))
 
 def trim(text, n):
     text = re.sub(r"\s+", " ", text).strip()
@@ -202,7 +231,7 @@ def product_ld(p, url):
                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow", "merchantReturnDays": 30,
                "returnMethod": "https://schema.org/ReturnByMail", "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility"}
     offer = {"@type": "Offer", "url": url, "priceCurrency": "CAD", "price": "%.2f" % p["price"],
-             "availability": "https://schema.org/InStock" if p["inStock"] else "https://schema.org/OutOfStock",
+             "availability": availability(p),
              "itemCondition": "https://schema.org/NewCondition", "seller": {"@id": ORG_ID},
              "shippingDetails": ship, "hasMerchantReturnPolicy": returns}
     prod = {"@type": "Product", "@id": url + "#product", "name": p["name"], "description": p["description"], "sku": p["id"],
@@ -298,7 +327,7 @@ def build():
                 '<a href="shop.html">View all products →</a></div><div class="grid">%s</div></div></section>' % "".join(card(q) for q in related(p, products)))
         head_extra = ('<meta property="product:price:amount" content="%.2f">\n<meta property="product:price:currency" content="CAD">\n'
                       '<meta property="product:availability" content="%s">\n<meta property="product:condition" content="new">\n'
-                      '<link rel="preload" as="image" href="/%s" fetchpriority="high">\n') % (p["price"], "in stock" if p["inStock"] else "out of stock", esc(c0img))
+                      '<link rel="preload" as="image" href="/%s" fetchpriority="high">\n') % (p["price"], {"https://schema.org/OutOfStock": "out of stock", "https://schema.org/PreOrder": "preorder", "https://schema.org/InStock": "in stock"}[availability(p)], esc(c0img))
         html = render({"title": title, "description": desc}, body, url, "shop", head_extra, ld(product_ld(p, url)), og=og, og_type="product")
         html = absolutize(html)
         d = os.path.join(outdir, p["id"]); os.makedirs(d, exist_ok=True); keep.add(p["id"])
