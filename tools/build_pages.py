@@ -44,7 +44,7 @@ LAYOUT = """<!doctype html>
 <script src="assets/js/store.js?v={v_js}" defer></script>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+{test_banner}<a class="skip-link" href="#main">Skip to content</a>
 <div class="announce" id="announce-text">Proudly Nova Scotian · Online store</div>
 <header class="site-header">
   <div class="container header-inner">
@@ -222,6 +222,12 @@ def related(p, products):
     rest = [q for q in products if q["id"] != p["id"] and q not in same and q not in other]
     return (same + other + rest)[:4]
 
+def test_banner():  # baked in (no layout shift) while config.js has testMode: true; store.js removes it if testMode is turned off
+    cfg = open(os.path.join(ROOT, "assets/js/config.js"), encoding="utf-8").read()
+    if re.search(r"^\s*testMode:\s*true", cfg, re.M):
+        return '<div class="test-banner" role="status">TEST MODE: payments are not live. Use Stripe test card 4242 4242 4242 4242. No real charges.</div>\n'
+    return ""
+
 def ver(rel):  # short content hash for cache-busting CSS/JS after deploys
     import hashlib
     return hashlib.sha1(open(os.path.join(ROOT, rel), "rb").read()).hexdigest()[:8]
@@ -230,7 +236,7 @@ def render(meta, body, url, nav_key, head_extra="", jsonld="", og=OG_DEFAULT, og
     nav = "".join('<a href="%s"%s>%s</a>' % (h, ' aria-current="page"' if k == nav_key else "", t) for h, t, k in NAV)
     return LAYOUT.format(title=esc(meta["title"]), description=esc(meta["description"]), url=url, site=SITE, nav=nav,
                          body=body.strip(), year=datetime.date.today().year, jsonld=jsonld, robots=robots, head_extra=head_extra,
-                         og_type=og_type, v_css=ver("assets/css/style.css"), v_cfg=ver("assets/js/config.js"), v_js=ver("assets/js/store.js"), og_image=og[0], og_w=og[1], og_h=og[2], og_alt=esc(og[3]))
+                         test_banner=test_banner(), og_type=og_type, v_css=ver("assets/css/style.css"), v_cfg=ver("assets/js/config.js"), v_js=ver("assets/js/store.js"), og_image=og[0], og_w=og[1], og_h=og[2], og_alt=esc(og[3]))
 
 def build():
     products = json.load(open(os.path.join(ROOT, "data", "products.json")))["products"]
