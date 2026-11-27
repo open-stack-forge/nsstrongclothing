@@ -129,7 +129,7 @@
     {
       "id": "ns-strong-toque",
       "name": "NS Strong Cuffed Toque",
-      "category": "Accessories",
+      "category": "Hats",
       "price": 29.99,
       "sizes": [
         "One Size"
@@ -193,6 +193,249 @@
         "Regular fit"
       ],
       "inStock": false,
+      "featured": false,
+      "sample": true,
+      "paymentLink": ""
+    },
+    {
+      "id": "harbour-dad-cap",
+      "name": "Harbour Dad Cap",
+      "category": "Hats",
+      "price": 42.99,
+      "sizes": [
+        "One Size"
+      ],
+      "colours": [
+        {
+          "name": "Atlantic Navy",
+          "hex": "#0b2545",
+          "image": "assets/img/products/harbour-dad-cap-atlantic-navy.webp"
+        },
+        {
+          "name": "Driftwood",
+          "hex": "#d6bdad",
+          "image": "assets/img/products/harbour-dad-cap-driftwood.webp"
+        },
+        {
+          "name": "Spruce",
+          "hex": "#183a31",
+          "image": "assets/img/products/harbour-dad-cap-spruce.webp"
+        }
+      ],
+      "images": [
+        "assets/img/products/harbour-dad-cap-atlantic-navy.webp"
+      ],
+      "description": "A broken-in, low-profile cotton cap for wharf walks and long drives down the South Shore. Embroidered NS Strong lighthouse shield on the front.",
+      "details": [
+        "Unstructured 6-panel, low profile",
+        "100% chino cotton twill",
+        "Adjustable strap with antique buckle",
+        "Embroidered front shield"
+      ],
+      "inStock": true,
+      "featured": false,
+      "sample": true,
+      "paymentLink": ""
+    },
+    {
+      "id": "wharf-trucker-hat",
+      "name": "Wharf Trucker Hat",
+      "category": "Hats",
+      "price": 39.99,
+      "sizes": [
+        "One Size"
+      ],
+      "colours": [
+        {
+          "name": "Atlantic Navy / White",
+          "hex": "#24303b",
+          "image": "assets/img/products/wharf-trucker-hat-atlantic-navy-white.webp"
+        },
+        {
+          "name": "Lobster Red",
+          "hex": "#c6172f",
+          "image": "assets/img/products/wharf-trucker-hat-lobster-red.webp"
+        }
+      ],
+      "images": [
+        "assets/img/products/wharf-trucker-hat-atlantic-navy-white.webp"
+      ],
+      "description": "The cap you grab on the way to the boat. Mesh back, snap closure, and NS STRONG embroidered across the front.",
+      "details": [
+        "Structured mid-profile front, mesh back",
+        "Plastic snapback closure",
+        "Embroidered NS STRONG wordmark"
+      ],
+      "inStock": true,
+      "featured": false,
+      "sample": true,
+      "paymentLink": ""
+    },
+    {
+      "id": "seaport-market-tote",
+      "name": "Seaport Market Tote",
+      "category": "Accessories",
+      "price": 34.99,
+      "sizes": [
+        "One Size"
+      ],
+      "colours": [
+        {
+          "name": "Oyster",
+          "hex": "#edcea5",
+          "image": "assets/img/products/seaport-market-tote-oyster.webp"
+        },
+        {
+          "name": "Black",
+          "hex": "#1a1a1a",
+          "image": "assets/img/products/seaport-market-tote-black.webp"
+        }
+      ],
+      "images": [
+        "assets/img/products/seaport-market-tote-oyster.webp"
+      ],
+      "description": "A sturdy organic cotton tote for Saturday market runs, beach days and everything in between. NS Strong lighthouse logo printed on the front.",
+      "details": [
+        "Organic cotton canvas",
+        "Roomy 15 x 16 in carry",
+        "Long shoulder handles",
+        "Front print"
+      ],
+      "inStock": true,
+      "featured": false,
+      "sample": true,
+      "paymentLink": ""
+    },
+    {
+      "id": "keepers-mug",
+      "name": "Lighthouse Keeper's Mug",
+      "category": "Accessories",
+      "price": 27.99,
+      "sizes": [
+        "11 oz",
+        "15 oz"
+      ],
+      "colours": [
+        {
+          "name": "White",
+          "hex": "#ffffff",
+          "image": "assets/img/products/keepers-mug-white.webp"
+        }
+      ],
+      "images": [
+        "assets/img/products/keepers-mug-white.webp"
+      ],
+      "description": "For the first coffee while the fog lifts off the harbour. Glossy white ceramic with the NS Strong lighthouse logo on both sides.",
+      "details": [
+        "Glossy white ceramic",
+        "Logo printed on both sides",
+        "Dishwasher and microwave safe",
+        "11 oz or 15 oz"
+      ],
+      "inStock": true,
+      "featured": false,
+      "sample": true,
+      "paymentLink": ""
+    },
+    {
+      "id": "shore-leave-sticker-sheet",
+      "name": "Shore Leave Sticker Sheet",
+      "category": "Accessories",
+      "price": 11.99,
+      "sizes": [
+        "A5 Sheet"
+      ],
+      "colours": [
+        {
+          "name": "White",
+          "hex": "#ffffff",
+          "image": "assets/img/products/shore-leave-sticker-sheet-white.webp"
+        }
+      ],
+      "images": [
+        "assets/img/products/shore-leave-sticker-sheet-white.webp"
+      ],
+      "description": "Seven NS Strong stickers on one sheet: lighthouse shields, the stacked logo and the wordmark. For laptops, coolers, water bottles and toolboxes.",
+      "details": [
+        "7 kiss-cut vinyl stickers",
+        "5.8 x 8.3 in sheet",
+        "Durable, water-resistant finish"
+      ],
+      "inStock": true,
+      "featured": false,
+      "sample": true,
+      "paymentLink": ""
+    },
+    {
+      "id": "deckhand-youth-tee",
+      "name": "Deckhand Youth Tee",
+      "category": "Kids",
+      "price": 29.99,
+      "sizes": [
+        "Youth S",
+        "Youth M",
+        "Youth L",
+        "Youth XL"
+      ],
+      "colours": [
+        {
+          "name": "Atlantic Navy",
+          "hex": "#0b2545",
+          "image": "assets/img/products/deckhand-youth-tee-atlantic-navy.webp"
+        },
+        {
+          "name": "Lobster Red",
+          "hex": "#c6172f",
+          "image": "assets/img/products/deckhand-youth-tee-lobster-red.webp"
+        },
+        {
+          "name": "White",
+          "hex": "#ffffff",
+          "image": "assets/img/products/deckhand-youth-tee-white.webp"
+        }
+      ],
+      "images": [
+        "assets/img/products/deckhand-youth-tee-atlantic-navy.webp"
+      ],
+      "description": "A soft, everyday tee for the next generation of Nova Scotians. Same lighthouse logo as the grown-up Bluenose Tee, sized for kids.",
+      "details": [
+        "Soft lightweight cotton",
+        "Youth sizes S to XL",
+        "Printed front graphic"
+      ],
+      "inStock": true,
+      "featured": false,
+      "sample": true,
+      "paymentLink": ""
+    },
+    {
+      "id": "peggys-cove-relaxed-tee",
+      "name": "Peggy's Cove Relaxed Tee",
+      "category": "Tees",
+      "price": 39.99,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colours": [
+        {
+          "name": "Black",
+          "hex": "#171717",
+          "image": "assets/img/products/peggys-cove-relaxed-tee-black.webp"
+        }
+      ],
+      "images": [
+        "assets/img/products/peggys-cove-relaxed-tee-black.webp"
+      ],
+      "description": "A relaxed, women's-cut tee with a slightly roomier body and rolled-sleeve look. NS Strong lighthouse logo across the front.",
+      "details": [
+        "Women's relaxed fit",
+        "Soft cotton blend",
+        "Printed front graphic"
+      ],
+      "inStock": true,
       "featured": false,
       "sample": true,
       "paymentLink": ""

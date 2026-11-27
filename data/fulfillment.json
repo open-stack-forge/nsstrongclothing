@@ -262,6 +262,263 @@
         "Atlantic Navy|L": 10126,
         "Atlantic Navy|XL": 10127
       }
+    },
+    "harbour-dad-cap": {
+      "printful_product_id": 206,
+      "printful_product": "Classic Dad Hat | Yupoong 6245CM",
+      "options": [
+        {
+          "id": "embroidery_type",
+          "value": "flat"
+        },
+        {
+          "id": "thread_colors",
+          "value": [
+            "#333366",
+            "#FFFFFF",
+            "#CC3333",
+            "#FFCC00",
+            "#005397"
+          ]
+        }
+      ],
+      "placements": [
+        {
+          "type": "embroidery_front",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/icon-reversed-1200.png",
+            "light": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+          }
+        }
+      ],
+      "colours": {
+        "Atlantic Navy": {
+          "printful_colour": "Navy",
+          "tone": "dark"
+        },
+        "Driftwood": {
+          "printful_colour": "Stone",
+          "tone": "light"
+        },
+        "Spruce": {
+          "printful_colour": "Spruce",
+          "tone": "dark"
+        }
+      },
+      "variants": {
+        "Atlantic Navy|One Size": 7857,
+        "Driftwood|One Size": 7859,
+        "Spruce|One Size": 8745
+      }
+    },
+    "wharf-trucker-hat": {
+      "printful_product_id": 252,
+      "printful_product": "Retro Trucker Hat | Yupoong 6606",
+      "options": [
+        {
+          "id": "embroidery_type",
+          "value": "flat"
+        },
+        {
+          "id": "thread_colors",
+          "value": [
+            "#FFFFFF",
+            "#CC3333"
+          ]
+        }
+      ],
+      "placements": [
+        {
+          "type": "embroidery_front",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/wordmark-ns-reversed-1200.png",
+            "red": "https://nsstrongclothing.ca/assets/print/wordmark-ns-white-1200.png",
+            "light": "https://nsstrongclothing.ca/assets/print/wordmark-ns-colour-1200.png"
+          }
+        }
+      ],
+      "colours": {
+        "Atlantic Navy / White": {
+          "printful_colour": "Navy/ White",
+          "tone": "dark"
+        },
+        "Lobster Red": {
+          "printful_colour": "Red",
+          "tone": "red"
+        }
+      },
+      "variants": {
+        "Atlantic Navy / White|One Size": 8755,
+        "Lobster Red|One Size": 8754
+      }
+    },
+    "seaport-market-tote": {
+      "printful_product_id": 367,
+      "printful_product": "Eco Tote Bag | Econscious EC8000",
+      "options": [],
+      "placements": [
+        {
+          "type": "front",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
+            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png",
+            "red": "https://nsstrongclothing.ca/assets/print/stacked-white-3600.png"
+          },
+          "position": {
+            "area_width": 1500,
+            "area_height": 1500,
+            "width": 1460,
+            "height": 1264,
+            "top": 180,
+            "left": 20
+          }
+        }
+      ],
+      "colours": {
+        "Oyster": {
+          "printful_colour": "Oyster",
+          "tone": "light"
+        },
+        "Black": {
+          "printful_colour": "Black",
+          "tone": "dark"
+        }
+      },
+      "variants": {
+        "Oyster|One Size": 10458,
+        "Black|One Size": 10457
+      }
+    },
+    "keepers-mug": {
+      "printful_product_id": 19,
+      "printful_product": "White Glossy Mug",
+      "options": [],
+      "placements": [
+        {
+          "type": "default",
+          "art": {
+            "light": "https://nsstrongclothing.ca/assets/print/mug-wrap-2700x1050.png"
+          }
+        }
+      ],
+      "colours": {
+        "White": {
+          "printful_colour": "White",
+          "tone": "light"
+        }
+      },
+      "variants": {
+        "White|11 oz": 1320,
+        "White|15 oz": 4830
+      }
+    },
+    "shore-leave-sticker-sheet": {
+      "printful_product_id": 505,
+      "printful_product": "Kiss-Cut Sticker Sheet",
+      "options": [],
+      "placements": [
+        {
+          "type": "default",
+          "art": {
+            "light": "https://nsstrongclothing.ca/assets/print/sticker-sheet-1750x2482.png"
+          }
+        }
+      ],
+      "colours": {
+        "White": {
+          "printful_colour": "White",
+          "tone": "light"
+        }
+      },
+      "variants": {
+        "White|A5 Sheet": 12917
+      }
+    },
+    "deckhand-youth-tee": {
+      "printful_product_id": 307,
+      "printful_product": "Youth Staple Tee | Bella + Canvas 3001Y",
+      "options": [],
+      "placements": [
+        {
+          "type": "front",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
+            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png",
+            "red": "https://nsstrongclothing.ca/assets/print/stacked-white-3600.png"
+          },
+          "position": {
+            "area_width": 1500,
+            "area_height": 1800,
+            "width": 1150,
+            "height": 996,
+            "top": 170,
+            "left": 175
+          }
+        }
+      ],
+      "colours": {
+        "Atlantic Navy": {
+          "printful_colour": "Navy",
+          "tone": "dark"
+        },
+        "Lobster Red": {
+          "printful_colour": "Red",
+          "tone": "red"
+        },
+        "White": {
+          "printful_colour": "White",
+          "tone": "light"
+        }
+      },
+      "variants": {
+        "Atlantic Navy|Youth S": 9596,
+        "Atlantic Navy|Youth M": 9599,
+        "Atlantic Navy|Youth L": 9602,
+        "Atlantic Navy|Youth XL": 9605,
+        "Lobster Red|Youth S": 10632,
+        "Lobster Red|Youth M": 10633,
+        "Lobster Red|Youth L": 10634,
+        "Lobster Red|Youth XL": 10635,
+        "White|Youth S": 9426,
+        "White|Youth M": 9427,
+        "White|Youth L": 9428,
+        "White|Youth XL": 9429
+      }
+    },
+    "peggys-cove-relaxed-tee": {
+      "printful_product_id": 360,
+      "printful_product": "Women's Relaxed T-Shirt | Bella + Canvas 6400",
+      "options": [],
+      "placements": [
+        {
+          "type": "front",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
+            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png",
+            "red": "https://nsstrongclothing.ca/assets/print/stacked-white-3600.png"
+          },
+          "position": {
+            "area_width": 1500,
+            "area_height": 1800,
+            "width": 1200,
+            "height": 1039,
+            "top": 170,
+            "left": 150
+          }
+        }
+      ],
+      "colours": {
+        "Black": {
+          "printful_colour": "Black",
+          "tone": "dark"
+        }
+      },
+      "variants": {
+        "Black|S": 10187,
+        "Black|M": 10188,
+        "Black|L": 10189,
+        "Black|XL": 10190
+      }
     }
   },
   "unmapped": {},
