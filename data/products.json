@@ -2,8 +2,8 @@
   "_readme": "Edit this file to manage the store. Prices are in CAD (dollars, before HST). Set inStock to false to show 'Sold out'. paymentLink is optional: a Stripe Payment Link URL used when checkout mode is 'payment_link'. Remove 'sample': true once a product is real.",
   "products": [
     {
-      "id": "bluenose-tee",
-      "name": "Bluenose Strong Tee",
+      "id": "schooner-strong-tee",
+      "name": "Schooner Strong Tee",
       "category": "Tees",
       "price": 39.99,
       "sizes": [
@@ -17,21 +17,21 @@
         {
           "name": "Atlantic Navy",
           "hex": "#0b2545",
-          "image": "assets/img/products/bluenose-tee-atlantic-navy.webp"
+          "image": "assets/img/products/schooner-strong-tee-atlantic-navy.webp"
         },
         {
           "name": "Heather Grey",
           "hex": "#cececc",
-          "image": "assets/img/products/bluenose-tee-heather-grey.webp"
+          "image": "assets/img/products/schooner-strong-tee-heather-grey.webp"
         },
         {
           "name": "Soft Cream",
           "hex": "#e7d4c0",
-          "image": "assets/img/products/bluenose-tee-soft-cream.webp"
+          "image": "assets/img/products/schooner-strong-tee-soft-cream.webp"
         }
       ],
       "images": [
-        "assets/img/products/bluenose-tee-atlantic-navy.webp"
+        "assets/img/products/schooner-strong-tee-atlantic-navy.webp"
       ],
       "description": "Our everyday tee with a vintage-style schooner badge: a two-masted schooner under full sail and a rising sun, ringed with NOVA SCOTIA STRONG and SAIL ON · EST. 2026. Soft, lightweight 100% cotton that wears in nicely.",
       "details": [
@@ -45,8 +45,8 @@
       "paymentLink": ""
     },
     {
-      "id": "saltire-hoodie",
-      "name": "Saltire Pullover Hoodie",
+      "id": "salt-water-strong-hoodie",
+      "name": "Salt Water Strong Hoodie",
       "category": "Hoodies",
       "price": 79.99,
       "sizes": [
@@ -60,16 +60,16 @@
         {
           "name": "Atlantic Navy",
           "hex": "#0b2545",
-          "image": "assets/img/products/saltire-hoodie-atlantic-navy.webp"
+          "image": "assets/img/products/salt-water-strong-hoodie-atlantic-navy.webp"
         },
         {
           "name": "Charcoal",
           "hex": "#33393f",
-          "image": "assets/img/products/saltire-hoodie-charcoal.webp"
+          "image": "assets/img/products/salt-water-strong-hoodie-charcoal.webp"
         }
       ],
       "images": [
-        "assets/img/products/saltire-hoodie-atlantic-navy.webp"
+        "assets/img/products/salt-water-strong-hoodie-atlantic-navy.webp"
       ],
       "description": "A warm, midweight pullover hoodie for raw Nova Scotia mornings. A big SALT WATER STRONG back print with waves running through the lettering, and a small matching lockup on the left chest.",
       "details": [
@@ -436,6 +436,63 @@
         "Soft cotton blend",
         "Printed front fine-line illustration"
       ],
+      "inStock": true,
+      "featured": false,
+      "sample": true,
+      "paymentLink": ""
+    },
+    {
+      "id": "athletic-club-performance-tee",
+      "name": "NS Athletic Club Performance Tee",
+      "category": "Tees",
+      "price": 29.99,
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colours": [
+        {
+          "name": "Atlantic Navy",
+          "hex": "#0b2545",
+          "image": "assets/img/products/athletic-club-performance-tee-atlantic-navy.webp"
+        },
+        {
+          "name": "Black",
+          "hex": "#171717",
+          "image": "assets/img/products/athletic-club-performance-tee-black.webp"
+        },
+        {
+          "name": "Charcoal",
+          "hex": "#333b3e",
+          "image": "assets/img/products/athletic-club-performance-tee-charcoal.webp"
+        },
+        {
+          "name": "White",
+          "hex": "#ffffff",
+          "image": "assets/img/products/athletic-club-performance-tee-white.webp"
+        },
+        {
+          "name": "Harbour Blue",
+          "hex": "#2665cc",
+          "image": "assets/img/products/athletic-club-performance-tee-harbour-blue.webp"
+        }
+      ],
+      "images": [
+        "assets/img/products/athletic-club-performance-tee-atlantic-navy.webp"
+      ],
+      "description": "Our training tee: moisture-wicking DryBlend fabric that keeps you dry through the gym, the run or a long shift, with a bold NS Athletic Club print across the chest. Modern classic fit, taped neck and shoulders, tear-away label.",
+      "details": [
+        "50% cotton / 50% polyester DryBlend moisture-wicking fabric (Gildan 8000)",
+        "Modern classic fit, taped neck and shoulders",
+        "Tear-away label, no itch",
+        "Printed front graphic",
+        "Printed and shipped from the United States (see note below)"
+      ],
+      "shipsFrom": "US",
+      "shippingNote": "This item is printed and shipped from the United States, not Nova Scotia. It ships separately from any other items in your order. Because it crosses the border, you may owe Canadian duties, GST/HST and/or carrier brokerage fees when it is delivered. These are charged by the carrier or customs, not by us, and are not included in your order total. Allow up to about two weeks for delivery.",
       "inStock": true,
       "featured": false,
       "sample": true,

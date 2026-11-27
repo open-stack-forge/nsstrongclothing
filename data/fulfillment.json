@@ -5,7 +5,7 @@
   "approved_by": "Calvin Gould",
   "approved_on": "2026-11-26",
   "products": {
-    "bluenose-tee": {
+    "schooner-strong-tee": {
       "printful_product_id": 71,
       "printful_product": "Unisex Staple T-Shirt | Bella + Canvas 3001",
       "options": [],
@@ -58,7 +58,7 @@
         "Soft Cream|2XL": 4155
       }
     },
-    "saltire-hoodie": {
+    "salt-water-strong-hoodie": {
       "printful_product_id": 146,
       "printful_product": "Unisex Heavy Blend Hoodie | Gildan 18500",
       "options": [],
@@ -517,6 +517,78 @@
         "Black|M": 10188,
         "Black|L": 10189,
         "Black|XL": 10190
+      }
+    },
+    "athletic-club-performance-tee": {
+      "printful_product_id": 785,
+      "printful_product": "Unisex Sports Tee | Gildan 8000 (DryBlend)",
+      "ships_from": "US",
+      "options": [],
+      "placements": [
+        {
+          "type": "front_dtf",
+          "art": {
+            "dark": "https://nsstrongclothing.ca/assets/print/designs/athletic-club-dark.png",
+            "light": "https://nsstrongclothing.ca/assets/print/designs/athletic-club-light.png"
+          },
+          "position": {
+            "area_width": 1800,
+            "area_height": 2400,
+            "width": 1650,
+            "height": 1151,
+            "top": 200,
+            "left": 75
+          }
+        }
+      ],
+      "colours": {
+        "Atlantic Navy": {
+          "printful_colour": "Navy",
+          "tone": "dark"
+        },
+        "Black": {
+          "printful_colour": "Black",
+          "tone": "dark"
+        },
+        "Charcoal": {
+          "printful_colour": "Dark Heather",
+          "tone": "dark"
+        },
+        "White": {
+          "printful_colour": "White",
+          "tone": "light"
+        },
+        "Harbour Blue": {
+          "printful_colour": "Royal",
+          "tone": "dark"
+        }
+      },
+      "variants": {
+        "Atlantic Navy|S": 19909,
+        "Atlantic Navy|M": 19926,
+        "Atlantic Navy|L": 19943,
+        "Atlantic Navy|XL": 19960,
+        "Atlantic Navy|2XL": 19977,
+        "Black|S": 19904,
+        "Black|M": 19921,
+        "Black|L": 19938,
+        "Black|XL": 19955,
+        "Black|2XL": 19972,
+        "Charcoal|S": 19906,
+        "Charcoal|M": 19923,
+        "Charcoal|L": 19940,
+        "Charcoal|XL": 19957,
+        "Charcoal|2XL": 19974,
+        "White|S": 19919,
+        "White|M": 19936,
+        "White|L": 19953,
+        "White|XL": 19970,
+        "White|2XL": 19987,
+        "Harbour Blue|S": 19918,
+        "Harbour Blue|M": 19935,
+        "Harbour Blue|L": 19952,
+        "Harbour Blue|XL": 19969,
+        "Harbour Blue|2XL": 19986
       }
     }
   },

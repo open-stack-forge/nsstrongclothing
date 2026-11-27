@@ -18,12 +18,15 @@
     }
     return productsPromise;
   }
-  function findProduct(list, id) { for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
+  /* Renamed products: old ids still resolve (old links, saved carts). */
+  var LEGACY_IDS = { "bluenose-tee": "schooner-strong-tee", "saltire-hoodie": "salt-water-strong-hoodie" };
+  function canonId(id) { return Object.prototype.hasOwnProperty.call(LEGACY_IDS, id) ? LEGACY_IDS[id] : id; }
+  function findProduct(list, id) { id = canonId(id); for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
   function colourOf(p, name) { for (var i = 0; i < (p.colours || []).length; i++) if (p.colours[i].name === name) return p.colours[i]; return null; }
   function imageFor(p, colourName) { var c = colourOf(p, colourName); return (c && c.image) || (p.images && p.images[0]) || ""; }
 
   /* ---------- cart storage ---------- */
-  function getCart() { try { var c = JSON.parse(localStorage.getItem(CART_KEY) || "[]"); return Array.isArray(c) ? c : []; } catch (e) { return []; } }
+  function getCart() { try { var c = JSON.parse(localStorage.getItem(CART_KEY) || "[]"); return Array.isArray(c) ? c.map(function (l) { if (l && l.id) l.id = canonId(l.id); return l; }) : []; } catch (e) { return []; } }
   function saveCart(c) { localStorage.setItem(CART_KEY, JSON.stringify(c)); updateCount(); document.dispatchEvent(new CustomEvent("cart:change")); }
   function keyOf(l) { return l.id + "|" + l.size + "|" + l.colour; }
   function addToCart(item) {
@@ -50,6 +53,7 @@
         '<a href="' + href + '"><img src="' + esc(imageFor(x.p, x.line.colour)) + '" alt="" width="72" height="72" loading="lazy"></a>' +
         '<div><a class="line-title" href="' + href + '">' + esc(x.p.name) + '</a>' +
         '<div class="line-meta">' + esc(x.line.colour) + ' / ' + esc(x.line.size) + '</div>' +
+        (x.p.shipsFrom === "US" ? '<div class="line-meta">Ships from the US. Duties/GST may apply on delivery.</div>' : "") +
         '<div class="qty" style="margin-top:.4rem"><button type="button" data-act="dec" aria-label="Decrease quantity">−</button>' +
         '<input type="number" min="1" max="99" value="' + x.line.qty + '" aria-label="Quantity for ' + esc(x.p.name) + '">' +
         '<button type="button" data-act="inc" aria-label="Increase quantity">+</button></div></div>' +
@@ -186,6 +190,7 @@
     loadProducts().then(function (ps) {
       var p = findProduct(ps, id);
       if (!p) { el.innerHTML = '<div class="empty" style="grid-column:1/-1"><h1>Product not found</h1><p>It may have sold out or moved.</p><a class="btn" href="shop.html">Back to shop</a></div>'; return; }
+      if (p.id !== id && history.replaceState) history.replaceState(null, "", "product.html?id=" + encodeURIComponent(p.id));
       document.title = p.name + " | NS Strong Clothing Co.";
       setMeta('meta[name="description"]', "content", p.description);
       setMeta('meta[property="og:title"]', "content", p.name + " | NS Strong Clothing Co.");
@@ -205,13 +210,14 @@
         '<div class="price">' + money(p.price) + ' <span class="small">CAD + HST</span></div>' +
         (p.sample ? '<p class="notice">This is a sample product for preview purposes. Real products are coming soon.</p>' : "") +
         '<p>' + esc(p.description) + '</p>' +
+        (p.shipsFrom === "US" && p.shippingNote ? '<p class="notice"><strong>Printed and shipped from the US.</strong> ' + esc(p.shippingNote) + '</p>' : "") +
         '<form id="add-form" novalidate>' +
         '<fieldset class="option-group"><legend>Colour: <span id="colour-name">' + esc(c0) + '</span></legend><div class="options">' + colours + '</div></fieldset>' +
         '<fieldset class="option-group"><legend>Size</legend><div class="options">' + sizes + '</div></fieldset>' +
         '<p class="small" id="size-error" role="alert" hidden style="color:#c8102e">Please choose a size.</p>' +
         '<div class="pdp-actions"><div class="qty"><button type="button" data-q="-1" aria-label="Decrease quantity">−</button><input id="qty" type="number" min="1" max="99" value="1" aria-label="Quantity"><button type="button" data-q="1" aria-label="Increase quantity">+</button></div>' +
         '<button class="btn" type="submit"' + (p.inStock ? "" : " disabled") + '>' + (p.inStock ? "Add to cart" : "Sold out") + '</button></div></form>' +
-        '<ul class="perks">' + details + '<li>🚚 Ships from Nova Scotia across Canada</li><li>↩ Easy 30-day returns on unworn items</li></ul></div>';
+        '<ul class="perks">' + details + '<li>' + (p.shipsFrom === "US" ? "🚚 Printed and shipped from the US (duties, GST/HST or brokerage may apply)" : "🚚 Ships from Nova Scotia across Canada") + '</li><li>↩ Easy 30-day returns on unworn items</li></ul></div>';
       var form = $("#add-form");
       function applySizes(colourName) {
         var cc = p.colours.filter(function (c) { return c.name === colourName; })[0];
