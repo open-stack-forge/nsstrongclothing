@@ -76,7 +76,7 @@ Shopify-style: customers check out the whole cart at once.
 
 The worker re-reads prices from the live `products.json`, so shoppers can't tamper with prices. **Never** put a Stripe secret key in this repo; it's public.
 
-**Taxes:** Stripe can calculate GST/HST automatically with Stripe Tax (extra per-transaction fee); uncomment `automatic_tax` in the worker once enabled. Ask your accountant when you need to register for GST/HST (the small-supplier threshold is $30,000 in sales over four quarters).
+**Taxes:** We are not currently registered for GST/HST, and Stripe Tax is off, so checkout does not add sales tax. Stripe can calculate GST/HST automatically with Stripe Tax (extra per-transaction fee); uncomment `automatic_tax` in the worker once you register and enable it. Ask your accountant when you need to register for GST/HST (the small-supplier threshold is $30,000 in sales over four quarters).
 
 ## Contact form
 

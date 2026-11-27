@@ -188,7 +188,7 @@ def pdp_html(p):
     img = "/" + p["colours"][0].get("image", p["images"][0])
     return ('<div class="pdp-media"><img id="pdp-img" src="%s" alt="%s" width="900" height="900" fetchpriority="high"></div>' % (esc(img), esc(p["name"] + " in " + c0)) +
             '<div><div class="card-cat">%s</div><h1>%s</h1>' % (esc(p["category"]), esc(p["name"])) +
-            '<div class="price">%s <span class="small">CAD + HST</span></div>' % money(p["price"]) +
+            '<div class="price">%s <span class="small">CAD</span></div>' % money(p["price"]) +
             preorder_notice(p) +
             '<p>%s</p>' % esc(p["description"]) +
             ('<p class="notice"><strong>Designed in Nova Scotia, printed in the US.</strong> %s</p>' % esc(p["shippingNote"]) if us and p.get("shippingNote") else "") +

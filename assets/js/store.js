@@ -91,11 +91,11 @@
   function shippingNote(lines, sub) {
     var t = CFG.freeShippingThreshold || 0;
     if (!lines.length) return "";
-    if (t && sub >= t) return "You qualify for free shipping in Canada. HST is calculated at checkout.";
+    if (t && sub >= t) return "You qualify for free shipping in Canada. No sales tax is added at checkout.";
     var rate = shippingAmount(lines, sub);
     var kind = stickerOnlyCart(lines) ? "Sticker-only shipping is " : "Standard shipping is ";
     var extra = t ? " Add " + money(t - sub) + " more for free shipping." : "";
-    return kind + money(rate) + " in Canada." + extra + " HST is calculated at checkout.";
+    return kind + money(rate) + " in Canada." + extra + " No sales tax is added at checkout.";
   }
   function bindLineEvents(root) {
     root.addEventListener("click", function (e) {
@@ -221,7 +221,7 @@
       el.innerHTML =
         '<div class="pdp-media"><img id="pdp-img" src="' + esc(imageFor(p, c0)) + '" alt="' + esc(p.name + " in " + c0) + '" width="900" height="900" fetchpriority="high"></div>' +
         '<div><div class="card-cat">' + esc(p.category) + '</div><h1>' + esc(p.name) + '</h1>' +
-        '<div class="price">' + money(p.price) + ' <span class="small">CAD + HST</span></div>' +
+        '<div class="price">' + money(p.price) + ' <span class="small">CAD</span></div>' +
         preorderNotice(p) +
         '<p>' + esc(p.description) + '</p>' +
         (p.shipsFrom === "US" && p.shippingNote ? '<p class="notice"><strong>Designed in Nova Scotia, printed in the US.</strong> ' + esc(p.shippingNote) + '</p>' : "") +

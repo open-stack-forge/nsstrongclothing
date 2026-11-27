@@ -1,5 +1,5 @@
 {
-  "_readme": "Edit this file to manage the store. Prices are in CAD (dollars, before HST). Set inStock to false to show 'Sold out'. paymentLink is optional: a Stripe Payment Link URL used when checkout mode is 'payment_link'. Remove 'sample': true once a product is real.",
+  "_readme": "Edit this file to manage the store. Prices are in CAD. Set inStock to false to show 'Sold out'. paymentLink is optional: a Stripe Payment Link URL used when checkout mode is 'payment_link'. Remove 'sample': true once a product is real.",
   "products": [
     {
       "id": "schooner-strong-tee",
