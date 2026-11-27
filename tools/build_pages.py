@@ -39,9 +39,9 @@ LAYOUT = """<!doctype html>
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<link rel="stylesheet" href="assets/css/style.css">
-{robots}{head_extra}{jsonld}<script src="assets/js/config.js" defer></script>
-<script src="assets/js/store.js" defer></script>
+<link rel="stylesheet" href="assets/css/style.css?v={v_css}">
+{robots}{head_extra}{jsonld}<script src="assets/js/config.js?v={v_cfg}" defer></script>
+<script src="assets/js/store.js?v={v_js}" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -222,11 +222,15 @@ def related(p, products):
     rest = [q for q in products if q["id"] != p["id"] and q not in same and q not in other]
     return (same + other + rest)[:4]
 
+def ver(rel):  # short content hash for cache-busting CSS/JS after deploys
+    import hashlib
+    return hashlib.sha1(open(os.path.join(ROOT, rel), "rb").read()).hexdigest()[:8]
+
 def render(meta, body, url, nav_key, head_extra="", jsonld="", og=OG_DEFAULT, og_type="website", robots=""):
     nav = "".join('<a href="%s"%s>%s</a>' % (h, ' aria-current="page"' if k == nav_key else "", t) for h, t, k in NAV)
     return LAYOUT.format(title=esc(meta["title"]), description=esc(meta["description"]), url=url, site=SITE, nav=nav,
                          body=body.strip(), year=datetime.date.today().year, jsonld=jsonld, robots=robots, head_extra=head_extra,
-                         og_type=og_type, og_image=og[0], og_w=og[1], og_h=og[2], og_alt=esc(og[3]))
+                         og_type=og_type, v_css=ver("assets/css/style.css"), v_cfg=ver("assets/js/config.js"), v_js=ver("assets/js/store.js"), og_image=og[0], og_w=og[1], og_h=og[2], og_alt=esc(og[3]))
 
 def build():
     products = json.load(open(os.path.join(ROOT, "data", "products.json")))["products"]
