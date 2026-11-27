@@ -57,11 +57,28 @@
     }).join("");
   }
   function subtotal(lines) { return lines.reduce(function (s, x) { return s + x.total; }, 0); }
-  function shippingNote(sub) {
+  function stickerOnlyCart(lines) {
+    return lines.length > 0 && lines.every(function (x) { return x.p && x.p.shippingClass === "sticker"; });
+  }
+  function shippingAmount(lines, sub) {
     var t = CFG.freeShippingThreshold || 0;
-    if (!t) return "Shipping and HST calculated at checkout.";
-    if (sub >= t) return "You qualify for free shipping in Canada! HST calculated at checkout.";
-    return "Add " + money(t - sub) + " more for free shipping in Canada. Shipping and HST calculated at checkout.";
+    if (t && sub >= t) return 0;
+    return stickerOnlyCart(lines) ? (CFG.stickerShipping || 8.99) : (CFG.standardShipping || 12);
+  }
+  function shippingLabel(lines, sub) {
+    var t = CFG.freeShippingThreshold || 0;
+    if (!lines.length) return "—";
+    if (t && sub >= t) return "Free";
+    return money(shippingAmount(lines, sub));
+  }
+  function shippingNote(lines, sub) {
+    var t = CFG.freeShippingThreshold || 0;
+    if (!lines.length) return "";
+    if (t && sub >= t) return "You qualify for free shipping in Canada. HST is calculated at checkout.";
+    var rate = shippingAmount(lines, sub);
+    var kind = stickerOnlyCart(lines) ? "Sticker-only shipping is " : "Standard shipping is ";
+    var extra = t ? " Add " + money(t - sub) + " more for free shipping." : "";
+    return kind + money(rate) + " in Canada." + extra + " HST is calculated at checkout.";
   }
   function bindLineEvents(root) {
     root.addEventListener("click", function (e) {
@@ -82,7 +99,8 @@
       var lines = resolveLines(products), sub = subtotal(lines);
       body.innerHTML = linesHTML(lines);
       $("#drawer-subtotal").textContent = money(sub);
-      $("#drawer-note").textContent = shippingNote(sub);
+      var ds = $("#drawer-shipping"); if (ds) ds.textContent = shippingLabel(lines, sub);
+      $("#drawer-note").textContent = shippingNote(lines, sub);
       $("#drawer-checkout").disabled = !lines.length;
     });
   }
@@ -92,7 +110,8 @@
       var lines = resolveLines(products), sub = subtotal(lines);
       root.innerHTML = linesHTML(lines);
       $("#cart-subtotal").textContent = money(sub);
-      $("#cart-note").textContent = shippingNote(sub);
+      var cs = $("#cart-shipping"); if (cs) cs.textContent = shippingLabel(lines, sub);
+      $("#cart-note").textContent = shippingNote(lines, sub);
       $("#cart-checkout").disabled = !lines.length;
     });
   }

@@ -26,7 +26,14 @@
  */
 const SITE = "https://nsstrongclothing.ca";
 const FREE_SHIPPING_OVER_CENTS = 10000;   // $100.00 CAD
-const STANDARD_SHIPPING_CENTS = 1200;     // TODO(Calvin): confirm flat shipping rate
+const STANDARD_SHIPPING_CENTS = 1200;     // flat Canada rate for mixed / apparel carts
+const STICKER_SHIPPING_CENTS = 899;       // sticker-only carts (covers Printful ship + HST; see comment below)
+// Printful STANDARD to every Canadian province, CAD, sticker sheet (variant 12917), incl. tax on shipping:
+//   1 sheet  ship $6.59  + up to 15% (PE/NB/NL/QC) = $7.58
+//   2 sheets ship $6.69  + 15% = $7.69
+//   3 sheets ship $6.79  + 15% = $7.81
+//   8 sheets (just under the $100 free-shipping threshold) ship $7.29 + 15% = $8.38
+// $8.99 covers the worst case below $100, including Stripe's 2.9% on the shipping line.
 const PRINTFUL_API = "https://api.printful.com";
 const STRIPE_TOLERANCE_SECONDS = 300;
 
@@ -98,9 +105,14 @@ async function handleCheckout(request, env) {
       // Compact fulfilment line, read back by the Stripe webhook: id|colour|size|qty|unitCents
       form.set(`metadata[i${i}]`, [p.id, it.colour, it.size, qty, cents].join("|").slice(0, 500));
     });
-    const ship = subtotal >= FREE_SHIPPING_OVER_CENTS ? 0 : STANDARD_SHIPPING_CENTS;
+    const stickerOnly = items.length > 0 && items.every((it) => {
+      const p = catalog.find((x) => x.id === it.id);
+      return p && p.shippingClass === "sticker";
+    });
+    const ship = subtotal >= FREE_SHIPPING_OVER_CENTS ? 0 : (stickerOnly ? STICKER_SHIPPING_CENTS : STANDARD_SHIPPING_CENTS);
+    const shipName = ship === 0 ? "Free shipping (Canada)" : stickerOnly ? "Sticker shipping (Canada)" : "Standard shipping (Canada)";
     form.set("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
-    form.set("shipping_options[0][shipping_rate_data][display_name]", ship ? "Standard shipping (Canada)" : "Free shipping (Canada)");
+    form.set("shipping_options[0][shipping_rate_data][display_name]", shipName);
     form.set("shipping_options[0][shipping_rate_data][fixed_amount][amount]", String(ship));
     form.set("shipping_options[0][shipping_rate_data][fixed_amount][currency]", "cad");
     const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {

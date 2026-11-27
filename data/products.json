@@ -364,7 +364,8 @@
       "inStock": true,
       "featured": false,
       "sample": true,
-      "paymentLink": ""
+      "paymentLink": "",
+      "shippingClass": "sticker"
     },
     {
       "id": "deckhand-youth-tee",

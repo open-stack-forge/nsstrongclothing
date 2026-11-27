@@ -7,8 +7,11 @@ window.NSS_CONFIG = {
   currency: "CAD",
   locale: "en-CA",
 
-  // Free-shipping threshold shown in the banner and cart (CAD). Set 0 to hide.
+  // Shipping amounts shown in the cart (CAD). The Worker is the source of truth at checkout.
+  // Free-shipping threshold: set 0 to hide the banner / "add $X more" note.
   freeShippingThreshold: 100,
+  standardShipping: 12,
+  stickerShipping: 8.99,
 
   /* -------- CHECKOUT ------------------------------------------------
      mode:
