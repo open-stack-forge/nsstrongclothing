@@ -12,7 +12,7 @@
 
   function loadProducts() {
     if (!productsPromise) {
-      productsPromise = fetch("data/products.json", { cache: "no-cache" })
+      productsPromise = fetch("/data/products.json", { cache: "no-cache" })
         .then(function (r) { if (!r.ok) throw new Error("products " + r.status); return r.json(); })
         .then(function (d) { return d.products || []; });
     }
@@ -21,9 +21,13 @@
   /* Renamed products: old ids still resolve (old links, saved carts). */
   var LEGACY_IDS = { "bluenose-tee": "schooner-strong-tee", "saltire-hoodie": "salt-water-strong-hoodie" };
   function canonId(id) { return Object.prototype.hasOwnProperty.call(LEGACY_IDS, id) ? LEGACY_IDS[id] : id; }
+  /* Root-absolute paths so pages work at any depth (e.g. /products/<id>/). */
+  function abs(u) { u = String(u || ""); return /^(https?:|\/|data:|#|mailto:)/.test(u) || !u ? u : "/" + u; }
+  function productUrl(p) { return "/products/" + encodeURIComponent(p.id) + "/"; }
+  function thumb(u) { return /^assets\/img\/products\/.*\.webp$/.test(u) ? u.replace(/\.webp$/, "-480.webp") : ""; }
   function findProduct(list, id) { id = canonId(id); for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
   function colourOf(p, name) { for (var i = 0; i < (p.colours || []).length; i++) if (p.colours[i].name === name) return p.colours[i]; return null; }
-  function imageFor(p, colourName) { var c = colourOf(p, colourName); return (c && c.image) || (p.images && p.images[0]) || ""; }
+  function imageFor(p, colourName) { var c = colourOf(p, colourName); return abs((c && c.image) || (p.images && p.images[0]) || ""); }
 
   /* ---------- cart storage ---------- */
   function getCart() { try { var c = JSON.parse(localStorage.getItem(CART_KEY) || "[]"); return Array.isArray(c) ? c.map(function (l) { if (l && l.id) l.id = canonId(l.id); return l; }) : []; } catch (e) { return []; } }
@@ -46,9 +50,9 @@
     return getCart().map(function (l) { var p = findProduct(products, l.id); return p ? { line: l, p: p, key: keyOf(l), total: p.price * l.qty } : null; }).filter(Boolean);
   }
   function linesHTML(lines) {
-    if (!lines.length) return '<div class="empty"><p>Your cart is empty.</p><a class="btn btn-outline" href="shop.html">Shop the collection</a></div>';
+    if (!lines.length) return '<div class="empty"><p>Your cart is empty.</p><a class="btn btn-outline" href="/shop.html">Shop the collection</a></div>';
     return lines.map(function (x) {
-      var href = "product.html?id=" + encodeURIComponent(x.p.id);
+      var href = productUrl(x.p);
       return '<div class="line" data-key="' + esc(x.key) + '">' +
         '<a href="' + href + '"><img src="' + esc(imageFor(x.p, x.line.colour)) + '" alt="" width="72" height="72" loading="lazy"></a>' +
         '<div><a class="line-title" href="' + href + '">' + esc(x.p.name) + '</a>' +
@@ -119,8 +123,8 @@
       $("#cart-checkout").disabled = !lines.length;
     });
   }
-  function openDrawer() { document.body.classList.add("drawer-open"); $("#cart-drawer").setAttribute("aria-hidden", "false"); renderDrawer(); setTimeout(function () { var c = $("#drawer-close"); if (c) c.focus(); }, 50); }
-  function closeDrawer() { document.body.classList.remove("drawer-open"); $("#cart-drawer").setAttribute("aria-hidden", "true"); }
+  function openDrawer() { document.body.classList.add("drawer-open"); var dr = $("#cart-drawer"); dr.setAttribute("aria-hidden", "false"); dr.removeAttribute("inert"); renderDrawer(); setTimeout(function () { var c = $("#drawer-close"); if (c) c.focus(); }, 50); }
+  function closeDrawer() { document.body.classList.remove("drawer-open"); var dr = $("#cart-drawer"); dr.setAttribute("aria-hidden", "true"); dr.setAttribute("inert", ""); }
 
   /* ---------- checkout ---------- */
   function checkout(btn) {
@@ -156,8 +160,9 @@
     if (!p.inStock) badges += '<span class="badge badge-out">Sold out</span>';
     if (p.sample) badges += '<span class="badge badge-sample" title="Placeholder product for preview">Sample</span>';
     var dots = (p.colours || []).map(function (c) { return '<span class="swatch-dot" style="background:' + esc(c.hex) + '" title="' + esc(c.name) + '"></span>'; }).join("");
-    return '<a class="card" href="product.html?id=' + encodeURIComponent(p.id) + '">' +
-      '<div class="card-media"><img src="' + esc(p.images[0]) + '" alt="' + esc(p.name) + '" width="600" height="600" loading="lazy">' + badges + '</div>' +
+    var t = thumb(p.images[0]), srcset = t ? ' srcset="' + esc(abs(t)) + ' 480w, ' + esc(abs(p.images[0])) + ' 900w" sizes="(max-width:600px) 50vw, 300px"' : "";
+    return '<a class="card" href="' + productUrl(p) + '">' +
+      '<div class="card-media"><img src="' + esc(abs(p.images[0])) + '"' + srcset + ' alt="' + esc(p.name) + '" width="600" height="600" loading="lazy" decoding="async">' + badges + '</div>' +
       '<div class="card-body"><div class="card-cat">' + esc(p.category) + '</div><div class="card-title">' + esc(p.name) + '</div>' +
       '<div class="card-price">' + money(p.price) + '</div><div class="swatches" aria-label="' + (p.colours || []).length + ' colours">' + dots + '</div></div></a>';
   }
@@ -186,15 +191,15 @@
   function setMeta(sel, attr, val) { var m = $(sel); if (m) m.setAttribute(attr, val); }
   function renderPDP() {
     var el = $("#pdp"); if (!el) return;
-    var id = new URLSearchParams(location.search).get("id");
+    var id = el.dataset.id || new URLSearchParams(location.search).get("id");
     loadProducts().then(function (ps) {
       var p = findProduct(ps, id);
-      if (!p) { el.innerHTML = '<div class="empty" style="grid-column:1/-1"><h1>Product not found</h1><p>It may have sold out or moved.</p><a class="btn" href="shop.html">Back to shop</a></div>'; return; }
-      if (p.id !== id && history.replaceState) history.replaceState(null, "", "product.html?id=" + encodeURIComponent(p.id));
-      document.title = p.name + " | NS Strong Clothing Co.";
-      setMeta('meta[name="description"]', "content", p.description);
-      setMeta('meta[property="og:title"]', "content", p.name + " | NS Strong Clothing Co.");
-      setMeta('meta[property="og:description"]', "content", p.description);
+      if (p && !el.dataset.id && location.replace) { location.replace(productUrl(p)); return; }
+      if (!p) { el.innerHTML = '<div class="empty" style="grid-column:1/-1"><h1>Product not found</h1><p>It may have sold out or moved.</p><a class="btn" href="/shop.html">Back to shop</a></div>'; return; }
+      if (!el.dataset.id) { // pre-rendered pages (/products/<id>/) already carry their own title and meta
+        document.title = p.name + " | NS Strong Clothing Co.";
+        setMeta('meta[name="description"]', "content", p.description);
+      }
       var crumb = $("#crumb-name"); if (crumb) crumb.textContent = p.name;
       var c0 = p.colours[0].name, s0 = p.sizes.length === 1 ? p.sizes[0] : "";
       var colours = p.colours.map(function (c, i) {
@@ -205,7 +210,7 @@
       }).join("");
       var details = (p.details || []).map(function (d) { return "<li>✓ " + esc(d) + "</li>"; }).join("");
       el.innerHTML =
-        '<div class="pdp-media"><img id="pdp-img" src="' + esc(imageFor(p, c0)) + '" alt="' + esc(p.name + " in " + c0) + '" width="900" height="900"></div>' +
+        '<div class="pdp-media"><img id="pdp-img" src="' + esc(imageFor(p, c0)) + '" alt="' + esc(p.name + " in " + c0) + '" width="900" height="900" fetchpriority="high"></div>' +
         '<div><div class="card-cat">' + esc(p.category) + '</div><h1>' + esc(p.name) + '</h1>' +
         '<div class="price">' + money(p.price) + ' <span class="small">CAD + HST</span></div>' +
         (p.sample ? '<p class="notice">This is a sample product for preview purposes. Real products are coming soon.</p>' : "") +
