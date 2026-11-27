@@ -13,15 +13,15 @@
         {
           "type": "front",
           "art": {
-            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
-            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+            "dark": "https://nsstrongclothing.ca/assets/print/designs/schooner-badge-dark.png",
+            "light": "https://nsstrongclothing.ca/assets/print/designs/schooner-badge-light.png"
           },
           "position": {
             "area_width": 1800,
             "area_height": 2400,
             "width": 1500,
-            "height": 1298,
-            "top": 200,
+            "height": 1500,
+            "top": 150,
             "left": 150
           }
         }
@@ -66,31 +66,31 @@
         {
           "type": "front",
           "art": {
-            "dark": "https://nsstrongclothing.ca/assets/print/icon-reversed-1200.png",
-            "light": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+            "dark": "https://nsstrongclothing.ca/assets/print/designs/saltwater-chest-dark.png",
+            "light": "https://nsstrongclothing.ca/assets/print/designs/saltwater-chest-light.png"
           },
           "position": {
             "area_width": 2100,
             "area_height": 2100,
-            "width": 560,
-            "height": 644,
-            "top": 150,
-            "left": 770
+            "width": 600,
+            "height": 380,
+            "top": 230,
+            "left": 1150
           }
         },
         {
           "type": "back",
           "art": {
-            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
-            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+            "dark": "https://nsstrongclothing.ca/assets/print/designs/saltwater-back-dark.png",
+            "light": "https://nsstrongclothing.ca/assets/print/designs/saltwater-back-light.png"
           },
           "position": {
             "area_width": 1800,
             "area_height": 2400,
-            "width": 1600,
-            "height": 1385,
-            "top": 200,
-            "left": 100
+            "width": 1650,
+            "height": 1725,
+            "top": 150,
+            "left": 75
           }
         }
       ],
@@ -124,11 +124,10 @@
         {
           "id": "thread_colors_chest_left",
           "value": [
-            "#333366",
             "#FFFFFF",
-            "#CC3333",
             "#FFCC00",
-            "#005397"
+            "#333366",
+            "#CC3333"
           ]
         }
       ],
@@ -136,15 +135,15 @@
         {
           "type": "embroidery_chest_left",
           "art": {
-            "dark": "https://nsstrongclothing.ca/assets/print/icon-reversed-1200.png",
-            "light": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+            "dark": "https://nsstrongclothing.ca/assets/print/designs/coastline-embroidery-dark.png",
+            "light": "https://nsstrongclothing.ca/assets/print/designs/coastline-embroidery-light.png"
           }
         }
       ],
       "colours": {
         "Sage": {
           "printful_colour": "Military Green",
-          "tone": "light"
+          "tone": "dark"
         },
         "Heather Grey": {
           "printful_colour": "Sport Grey",
@@ -214,29 +213,29 @@
         {
           "type": "front",
           "art": {
-            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
-            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png"
+            "dark": "https://nsstrongclothing.ca/assets/print/designs/varsity-front-dark.png",
+            "light": "https://nsstrongclothing.ca/assets/print/designs/varsity-front-light.png"
           },
           "position": {
             "area_width": 1800,
             "area_height": 2400,
             "width": 1500,
-            "height": 1298,
-            "top": 200,
+            "height": 1450,
+            "top": 180,
             "left": 150
           }
         },
         {
           "type": "sleeve_left",
           "art": {
-            "dark": "https://nsstrongclothing.ca/assets/print/icon-reversed-1200.png",
-            "light": "https://nsstrongclothing.ca/assets/print/icon-colour-1200.png"
+            "dark": "https://nsstrongclothing.ca/assets/print/designs/varsity-sleeve-dark.png",
+            "light": "https://nsstrongclothing.ca/assets/print/designs/varsity-sleeve-light.png"
           },
           "position": {
             "area_width": 450,
             "area_height": 1800,
             "width": 380,
-            "height": 437,
+            "height": 1520,
             "top": 100,
             "left": 35
           }
@@ -442,16 +441,16 @@
         {
           "type": "front",
           "art": {
-            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
-            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png",
-            "red": "https://nsstrongclothing.ca/assets/print/stacked-white-3600.png"
+            "dark": "https://nsstrongclothing.ca/assets/print/designs/buoys-dark.png",
+            "light": "https://nsstrongclothing.ca/assets/print/designs/buoys-light.png",
+            "red": "https://nsstrongclothing.ca/assets/print/designs/buoys-dark.png"
           },
           "position": {
             "area_width": 1500,
             "area_height": 1800,
             "width": 1150,
-            "height": 996,
-            "top": 170,
+            "height": 1278,
+            "top": 150,
             "left": 175
           }
         }
@@ -493,16 +492,16 @@
         {
           "type": "front",
           "art": {
-            "dark": "https://nsstrongclothing.ca/assets/print/stacked-reversed-3600.png",
-            "light": "https://nsstrongclothing.ca/assets/print/stacked-colour-3600.png",
-            "red": "https://nsstrongclothing.ca/assets/print/stacked-white-3600.png"
+            "dark": "https://nsstrongclothing.ca/assets/print/designs/peggys-cove-fineline-dark.png",
+            "light": "https://nsstrongclothing.ca/assets/print/designs/peggys-cove-fineline-light.png",
+            "red": "https://nsstrongclothing.ca/assets/print/designs/peggys-cove-fineline-dark.png"
           },
           "position": {
             "area_width": 1500,
             "area_height": 1800,
             "width": 1200,
-            "height": 1039,
-            "top": 170,
+            "height": 1467,
+            "top": 140,
             "left": 150
           }
         }

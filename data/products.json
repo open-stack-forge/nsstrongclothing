@@ -33,11 +33,11 @@
       "images": [
         "assets/img/products/bluenose-tee-atlantic-navy.webp"
       ],
-      "description": "Our everyday tee with the NS Strong lighthouse shield across the chest. Soft, lightweight 100% cotton that wears in nicely, built for long days on the coast or in the gym.",
+      "description": "Our everyday tee with a vintage-style schooner badge: a two-masted schooner under full sail and a rising sun, ringed with NOVA SCOTIA STRONG and SAIL ON · EST. 2026. Soft, lightweight 100% cotton that wears in nicely.",
       "details": [
         "Soft 100% cotton jersey (Bella+Canvas 3001)",
         "Unisex fit",
-        "Full-colour printed front graphic"
+        "Printed front schooner badge, about 10 in wide"
       ],
       "inStock": true,
       "featured": true,
@@ -71,11 +71,11 @@
       "images": [
         "assets/img/products/saltire-hoodie-atlantic-navy.webp"
       ],
-      "description": "A warm, midweight pullover hoodie for raw Nova Scotia mornings. Big NS Strong lighthouse shield on the back, small shield on the chest.",
+      "description": "A warm, midweight pullover hoodie for raw Nova Scotia mornings. A big SALT WATER STRONG back print with waves running through the lettering, and a small matching lockup on the left chest.",
       "details": [
-        "Midweight fleece",
+        "Midweight fleece (Gildan 18500)",
         "Kangaroo pocket",
-        "Front chest print and large back print"
+        "Left-chest print and large back print"
       ],
       "inStock": true,
       "featured": true,
@@ -115,10 +115,10 @@
       "images": [
         "assets/img/products/coastline-crewneck-sage.webp"
       ],
-      "description": "A classic crewneck sweatshirt with the NS Strong lighthouse shield embroidered on the chest. Clean, simple and proud.",
+      "description": "A classic crewneck with the Nova Scotia coastline embroidered on the left chest, Halifax marked with a star and 44.6°N 63.6°W stitched underneath.",
       "details": [
-        "Midweight fleece",
-        "Embroidered chest shield",
+        "Midweight fleece (Gildan 18000)",
+        "Embroidered left-chest coastline map",
         "Classic fit"
       ],
       "inStock": true,
@@ -186,10 +186,10 @@
       "images": [
         "assets/img/products/lighthouse-long-sleeve-white.webp"
       ],
-      "description": "A long sleeve tee with the lighthouse shield on the chest and a shield on the sleeve. Light enough for summer nights, warm enough for the shoulder seasons.",
+      "description": "A long sleeve tee with retro varsity lettering: NOVA SCOTIA arched over a two-tone STRONG, EST. 2026 and ATLANTIC CANADA, plus ATLANTIC CANADA running down the left sleeve.",
       "details": [
         "Soft 100% cotton jersey (Bella+Canvas 3501)",
-        "Front print plus sleeve print",
+        "Varsity front print plus left-sleeve print",
         "Regular fit"
       ],
       "inStock": false,
@@ -398,11 +398,11 @@
       "images": [
         "assets/img/products/deckhand-youth-tee-atlantic-navy.webp"
       ],
-      "description": "A soft, everyday tee for the next generation of Nova Scotians. Same lighthouse logo as the grown-up Bluenose Tee, sized for kids.",
+      "description": "A soft, everyday tee for the next generation of Nova Scotians: three striped lobster buoys hanging from a rope line, with DECKHAND in bold letters underneath.",
       "details": [
-        "Soft lightweight cotton",
+        "Soft lightweight cotton (Bella+Canvas 3001Y)",
         "Youth sizes S to XL",
-        "Printed front graphic"
+        "Printed front lobster-buoy graphic"
       ],
       "inStock": true,
       "featured": false,
@@ -430,11 +430,11 @@
       "images": [
         "assets/img/products/peggys-cove-relaxed-tee-black.webp"
       ],
-      "description": "A relaxed, women's-cut tee with a slightly roomier body and rolled-sleeve look. NS Strong lighthouse logo across the front.",
+      "description": "A relaxed, women's-cut tee with a fine-line drawing of the lighthouse at Peggy's Cove: granite boulders, a red lantern room, gulls and a gold beam, framed in an arch with PEGGY'S COVE underneath.",
       "details": [
-        "Women's relaxed fit",
+        "Women's relaxed fit (Bella+Canvas 6400)",
         "Soft cotton blend",
-        "Printed front graphic"
+        "Printed front fine-line illustration"
       ],
       "inStock": true,
       "featured": false,
