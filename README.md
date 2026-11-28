@@ -115,9 +115,25 @@ Shipping & Returns, Privacy Policy and Terms of Sale are reasonable starting tem
 
 Paid Stripe checkouts are turned into Printful orders by the `nsstrong-checkout` Worker (`worker/checkout-worker.js`, config in `worker/wrangler.toml`).
 
-- `POST /webhooks/stripe`: Stripe `checkout.session.completed` (signature-verified) → Printful order. Orders are created as **drafts** unless the event is live, the Stripe key is live, `PRINTFUL_AUTO_CONFIRM = "true"`, and every cart line is mapped. Duplicate deliveries are ignored (Printful `external_id`).
+- `POST /webhooks/stripe`: Stripe `checkout.session.completed` (signature-verified) → Printful order, then (if Resend is on) a customer order-confirmation email. Orders are created as **drafts** unless the event is live, the Stripe key is live, `PRINTFUL_AUTO_CONFIRM = "true"`, and every cart line is mapped. Duplicate deliveries are ignored (Printful `external_id`) and do not re-send the confirmation email.
+- `GET /order?session_id=`: returns a paid order's reference, items and totals for the thank-you page (no secrets).
 - `POST /webhooks/printful/<secret>`: `package_shipped` → shipping email to the customer (needs the `RESEND_API_KEY` secret); `order_failed` / `order_canceled` / `order_put_hold` → alert to `OWNER_EMAIL`.
 - `GET /health`: shows which pieces are configured (true/false only).
 - `data/fulfillment.json`: maps each product/colour/size to a Canada-fulfilled Printful variant, print placement and print file (`assets/print/`). Products or colours missing there are not auto-fulfilled; the draft is created without them and flagged.
 - Secrets live only in Cloudflare: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `PRINTFUL_API_TOKEN`, `PRINTFUL_WEBHOOK_TOKEN`, `RESEND_API_KEY`. Never commit them.
 - Deploy: `cd worker && npx wrangler deploy`.
+
+## Customer emails (Resend) — ready, not switched on
+
+Order confirmation and shipping emails are already implemented in the Worker and stay off until a `RESEND_API_KEY` secret is present (`EMAIL_ENABLED` is already `"true"` in `worker/wrangler.toml`). `GET /health` reports `email: true` once the key is in place. No code change is required to switch them on.
+
+To turn emails on:
+
+1. **Resend API key.** Create a Resend account, then an API key. Add it as a Cloudflare Worker secret named `RESEND_API_KEY` on `nsstrong-checkout` (Workers & Pages → nsstrong-checkout → Settings → Variables and Secrets → Add → Type Secret). Do not put it in this repo.
+2. **Sending domain DNS** (IT Admin; do **not** replace existing mail records). The Worker sends from `orders@nsstrongclothing.ca` (`EMAIL_FROM`) with `reply_to` `hello@nsstrongclothing.ca`. In Resend, add and verify `nsstrongclothing.ca`. Resend will show exact records; typically:
+   - One or more **CNAME or TXT DKIM** records (for example `resend._domainkey`) — add these; do not change the existing Cloudflare Email Routing DKIM (`cf2024-1._domainkey`).
+   - **SPF:** the domain already has `v=spf1 include:_spf.mx.cloudflare.net ~all`. **Merge** Resend's include into that same TXT record (do not create a second SPF record and do not drop Cloudflare's include), e.g. `v=spf1 include:_spf.mx.cloudflare.net include:amazonses.com ~all` (use the include Resend displays).
+   - **MX records must stay as they are** so Cloudflare Email Routing keeps receiving mail at this domain. Resend is used only for sending; it does not need the MX to change.
+   - Optional: a DMARC TXT on `_dmarc` if you do not already have one.
+
+After the domain is verified and the secret is set, the next paid checkout will send a confirmation (order number, items, total) and later a shipping email when Printful marks the package shipped. Existing test orders are not replayed.

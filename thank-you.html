@@ -28,10 +28,10 @@
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<link rel="stylesheet" href="assets/css/style.css?v=7db935fd">
+<link rel="stylesheet" href="assets/css/style.css?v=3b922600">
 <meta name="robots" content="noindex, follow">
 <script src="assets/js/config.js?v=9dbd2b21" defer></script>
-<script src="assets/js/store.js?v=03fedf27" defer></script>
+<script src="assets/js/store.js?v=1e6c3b17" defer></script>
 </head>
 <body>
 <div class="test-banner" role="status">TEST MODE: payments are not live. Use Stripe test card 4242 4242 4242 4242. No real charges.</div>
@@ -53,7 +53,15 @@
   </div>
 </header>
 <main id="main">
-<section class="section" id="thank-you"><div class="container empty"><h1>Thank you for your order!</h1><p>Your payment was received and a confirmation email from Stripe is on its way. We'll email you tracking once your order ships.</p><a class="btn" href="shop.html">Keep shopping</a></div></section>
+<section class="section" id="thank-you">
+  <div class="container order-thanks">
+    <h1>Thank you for your order!</h1>
+    <p id="thanks-lead">Your payment was received. We're loading your order details…</p>
+    <div id="order-summary" hidden></div>
+    <p id="thanks-email" class="small"></p>
+    <a class="btn" href="shop.html">Keep shopping</a>
+  </div>
+</section>
 </main>
 <footer class="site-footer">
   <div class="container">

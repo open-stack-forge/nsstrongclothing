@@ -4,7 +4,8 @@
  *
  * Routes
  *   POST /                         create a Stripe Checkout Session from the cart (browser, site origin only)
- *   POST /webhooks/stripe          Stripe `checkout.session.completed` -> Printful order (DRAFT unless explicitly enabled)
+ *   GET  /order?session_id=cs_...  paid-order summary for the thank-you page (no secrets)
+ *   POST /webhooks/stripe          Stripe `checkout.session.completed` -> Printful draft + (if Resend is on) order confirmation email
  *   POST /webhooks/printful/<tok>  Printful `package_shipped` etc. -> customer shipping email (Resend), owner alerts
  *   GET  /health                   which integrations are configured (booleans only, never values)
  *
@@ -13,7 +14,7 @@
  *   STRIPE_WEBHOOK_SECRET    whsec_... signing secret of the Stripe webhook endpoint
  *   PRINTFUL_API_TOKEN       Printful private token (store-level)
  *   PRINTFUL_WEBHOOK_TOKEN   random string that forms the secret Printful webhook path
- *   RESEND_API_KEY           (optional) enables shipping / alert emails
+ *   RESEND_API_KEY           (optional) enables order confirmation, shipping and alert emails
  * Plain vars (worker/wrangler.toml)
  *   PRINTFUL_AUTO_CONFIRM    "true" to send LIVE paid orders straight to production. Anything else = drafts only.
  *   EMAIL_FROM, OWNER_EMAIL, EMAIL_ENABLED
@@ -40,7 +41,7 @@ const STRIPE_TOLERANCE_SECONDS = 300;
 const cors = () => ({
   "Access-Control-Allow-Origin": SITE,
   "Vary": "Origin",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 });
 const jsonResponse = (obj, status = 200, extra = {}) =>
@@ -52,6 +53,7 @@ export default {
     const path = url.pathname.replace(/\/+$/, "") || "/";
     try {
       if (path === "/") return await handleCheckout(request, env);
+      if (path === "/order") return await handleOrderLookup(request, env);
       if (path === "/health" && request.method === "GET") return health(env);
       if (path === "/webhooks/stripe" && request.method === "POST") return await handleStripeWebhook(request, env, ctx);
       if (path.startsWith("/webhooks/printful/") && request.method === "POST") return await handlePrintfulWebhook(request, env, path, ctx);
@@ -128,6 +130,43 @@ async function handleCheckout(request, env) {
   }
 }
 
+const ORDER_REF_PREFIX = "NS-";
+function formatOrderRef(hashHex) {
+  return ORDER_REF_PREFIX + hashHex.slice(0, 8).toUpperCase();
+}
+
+async function handleOrderLookup(request, env) {
+  const origin = request.headers.get("Origin") || "";
+  if (request.method === "OPTIONS") return new Response(null, { headers: cors() });
+  if (request.method !== "GET") return new Response("Not found", { status: 404 });
+  if (origin && origin !== SITE) return jsonResponse({ error: "Forbidden origin" }, 403, cors());
+  if (!env.STRIPE_SECRET_KEY) return jsonResponse({ error: "Checkout is not configured" }, 503, cors());
+  const id = new URL(request.url).searchParams.get("session_id") || "";
+  if (!/^cs_(test|live)_[A-Za-z0-9]+$/.test(id)) return jsonResponse({ error: "Not found" }, 404, cors());
+  const res = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(id)}?expand[]=line_items`, {
+    headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}` },
+  });
+  const session = await res.json();
+  if (!res.ok || session.payment_status !== "paid") return jsonResponse({ error: "Not found" }, 404, cors());
+  const items = ((session.line_items && session.line_items.data) || []).map((li) => ({
+    name: li.description,
+    quantity: li.quantity,
+    amount: li.amount_total,
+  }));
+  return jsonResponse({
+    reference: formatOrderRef(await sha256Hex(session.id)),
+    status: "paid",
+    currency: (session.currency || "cad").toUpperCase(),
+    items,
+    subtotal: session.amount_subtotal || 0,
+    shipping: (session.shipping_cost && session.shipping_cost.amount_total) || 0,
+    tax: (session.total_details && session.total_details.amount_tax) || 0,
+    total: session.amount_total || 0,
+    email: (session.customer_details && session.customer_details.email) || null,
+    testMode: session.livemode === false,
+  }, 200, cors());
+}
+
 function health(env) {
   return jsonResponse({
     ok: true,
@@ -162,6 +201,11 @@ async function handleStripeWebhook(request, env) {
   if (result.error) {
     console.error("printful order failed", JSON.stringify(result));
     return jsonResponse({ error: result.error }, 502); // Stripe retries for up to 3 days
+  }
+  // First successful fulfilment only: Resend is a no-op until RESEND_API_KEY is set.
+  if (!result.duplicate) {
+    try { await sendOrderConfirmation(env, session); }
+    catch (e) { console.error("order confirmation email failed", e && e.message || e); }
   }
   return jsonResponse({ received: true, ...result });
 }
@@ -332,6 +376,67 @@ async function handlePrintfulWebhook(request, env, path) {
 }
 
 const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+async function sendOrderConfirmation(env, session) {
+  const to = session.customer_details && session.customer_details.email;
+  if (!to) return false;
+  const ref = formatOrderRef(await sha256Hex(session.id));
+  let items = [];
+  try {
+    const liRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(session.id)}/line_items`, {
+      headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}` },
+    });
+    if (liRes.ok) {
+      const li = await liRes.json();
+      items = (li.data || []).map((x) => ({
+        name: x.description,
+        quantity: x.quantity,
+        amount: x.amount_total,
+      }));
+    }
+  } catch (e) {
+    console.error("line item lookup for email failed", e && e.message || e);
+  }
+  if (!items.length) {
+    for (let i = 0; i < 40; i++) {
+      const raw = session.metadata && session.metadata[`i${i}`];
+      if (!raw) break;
+      const [id, colour, size, qty, cents] = raw.split("|");
+      items.push({
+        name: `${id} (${colour} / ${size})`,
+        quantity: parseInt(qty, 10) || 1,
+        amount: (parseInt(cents, 10) || 0) * (parseInt(qty, 10) || 1),
+      });
+    }
+  }
+  const cad = (cents) => new Intl.NumberFormat("en-CA", { style: "currency", currency: (session.currency || "cad").toUpperCase() }).format((cents || 0) / 100);
+  const shipping = (session.shipping_cost && session.shipping_cost.amount_total) || 0;
+  const tax = (session.total_details && session.total_details.amount_tax) || 0;
+  const total = session.amount_total || 0;
+  const first = ((session.customer_details && session.customer_details.name) || "").split(" ")[0] || "there";
+  const itemLines = items.map((x) => `${x.quantity} × ${x.name} — ${cad(x.amount)}`);
+  const subject = `Thanks for your NS Strong order ${ref}`;
+  const testNote = session.livemode === false ? "\nThis was a test (sandbox) order. No real payment was captured.\n" : "";
+  const text = `Hi ${first},\n\nThank you for your order with NS Strong Clothing Co.\n\nOrder number: ${ref}\n\n${itemLines.join("\n")}\n` +
+    `Shipping: ${cad(shipping)}\n` + (tax ? `Tax: ${cad(tax)}\n` : "") + `Total: ${cad(total)} CAD\n` +
+    testNote +
+    `\nWe'll email you tracking information when your order ships.\n\nQuestions? Just reply to this email or write to hello@nsstrongclothing.ca.\n\nThanks for supporting NS Strong!\nNS Strong Clothing Co.\nhttps://nsstrongclothing.ca`;
+  const rows = items.map((x) => `<tr><td style="padding:6px 0">${esc(String(x.quantity))} × ${esc(x.name)}</td><td style="padding:6px 0;text-align:right">${esc(cad(x.amount))}</td></tr>`).join("");
+  const html = `<div style="font-family:Inter,Arial,sans-serif;color:#0b2545;max-width:560px">
+<h2 style="font-family:'Barlow Condensed',Arial,sans-serif;letter-spacing:.5px">Thank you for your order</h2>
+<p>Hi ${esc(first)},</p>
+<p>We've received your payment. Your order number is <strong>${esc(ref)}</strong>.</p>
+<table style="width:100%;border-collapse:collapse">${rows}
+<tr><td style="padding:6px 0;color:#5b6b7b">Shipping</td><td style="padding:6px 0;text-align:right">${esc(cad(shipping))}</td></tr>
+${tax ? `<tr><td style="padding:6px 0;color:#5b6b7b">Tax</td><td style="padding:6px 0;text-align:right">${esc(cad(tax))}</td></tr>` : ""}
+<tr><td style="padding:8px 0;font-weight:700">Total</td><td style="padding:8px 0;text-align:right;font-weight:700">${esc(cad(total))} CAD</td></tr>
+</table>
+${session.livemode === false ? "<p><em>This was a test (sandbox) order. No real payment was captured.</em></p>" : ""}
+<p>We'll email you tracking information when your order ships.</p>
+<p>Questions? Just reply to this email or write to <a href="mailto:hello@nsstrongclothing.ca">hello@nsstrongclothing.ca</a>.</p>
+<p>Thanks for supporting NS Strong!<br>NS Strong Clothing Co.</p></div>`;
+  return sendEmail(env, { to, subject, text, html });
+}
 
 async function sendShippingEmail(env, order, shipment) {
   const to = order.recipient && order.recipient.email;

@@ -282,6 +282,52 @@
     if (html) el.innerHTML = html; else el.closest("div").hidden = true;
   }
 
+
+  function initThankYou() {
+    var root = $("#thank-you"); if (!root) return;
+    localStorage.removeItem(CART_KEY); updateCount();
+    var lead = $("#thanks-lead"), box = $("#order-summary"), emailNote = $("#thanks-email");
+    var emailCopy = "Our own confirmation emails aren't turned on yet, so you won't get a message from NS Strong for this order. Stripe may send you a payment receipt. Please save your order number. We'll email tracking once order emails are set up and your order ships.";
+    var sid = new URLSearchParams(location.search).get("session_id") || "";
+    if (!sid) {
+      if (lead) lead.textContent = "Your payment was received. If you just checked out, your order number would normally appear here.";
+      if (emailNote) emailNote.textContent = emailCopy;
+      return;
+    }
+    var base = ((CFG.checkout && CFG.checkout.workerUrl) || "https://checkout.nsstrongclothing.ca").replace(/\/$/, "");
+    fetch(base + "/order?session_id=" + encodeURIComponent(sid))
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (!res.ok || !res.d || !res.d.reference) {
+          if (lead) lead.textContent = "Your payment was received. We couldn't load the order summary automatically — please keep your Stripe receipt as a record.";
+          if (emailNote) emailNote.textContent = emailCopy;
+          return;
+        }
+        var d = res.d;
+        if (lead) {
+          lead.innerHTML = "Your payment was received. Your order number is <strong>" + esc(d.reference) + "</strong>." +
+            (d.testMode ? " This was a test order — no real charge was made." : "");
+        }
+        if (box) {
+          var rows = (d.items || []).map(function (it) {
+            return "<tr><td>" + esc(it.name) + (it.quantity > 1 ? " × " + it.quantity : "") + "</td><td>" + money((it.amount || 0) / 100) + "</td></tr>";
+          }).join("");
+          rows += "<tr class=\"muted\"><td>Shipping</td><td>" + money((d.shipping || 0) / 100) + "</td></tr>";
+          if (d.tax) rows += "<tr class=\"muted\"><td>Tax</td><td>" + money(d.tax / 100) + "</td></tr>";
+          rows += "<tr class=\"total\"><td>Total</td><td>" + money((d.total || 0) / 100) + " " + esc(d.currency || "CAD") + "</td></tr>";
+          box.innerHTML = "<table class=\"order-table\">" + rows + "</table>";
+          box.hidden = false;
+        }
+        if (emailNote) {
+          emailNote.textContent = (d.email ? ("A record of this order is filed under " + d.email + ". ") : "") + emailCopy;
+        }
+      })
+      .catch(function () {
+        if (lead) lead.textContent = "Your payment was received. We couldn't load the order summary automatically — please keep your Stripe receipt as a record.";
+        if (emailNote) emailNote.textContent = emailCopy;
+      });
+  }
+
   /* ---------- boot ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     updateCount();
@@ -301,7 +347,7 @@
     document.addEventListener("cart:change", function () { if (document.body.classList.contains("drawer-open")) renderDrawer(); renderCartPage(); });
     window.addEventListener("storage", function (e) { if (e.key === CART_KEY) { updateCount(); renderCartPage(); } });
     var ck = new URLSearchParams(location.search).get("checkout");
-    if ($("#thank-you")) { localStorage.removeItem(CART_KEY); updateCount(); }
+    initThankYou();
     renderFeatured(); renderCatalog(); renderPDP(); renderCartPage(); initContact(); initSocial();
   });
 })();
